@@ -16,29 +16,35 @@ export default function Education() {
         <div className="timeline">
           <div className="timeline-item">
             <span className="timeline-marker" aria-hidden="true"></span>
-            <div className="timeline-year">2022 — 2026</div>
-            <h3 className="timeline-title">Degree Name</h3>
-            <div className="timeline-school">University Name</div>
+            <div className="timeline-year">2026 — Expected May 2028</div>
+            <h3 className="timeline-title">Master of Science in Computer Science</h3>
+            <div className="timeline-school">Georgia State University — Atlanta, GA</div>
             <p className="timeline-desc">
-              Placeholder — one or two sentences on focus areas, standout coursework, or a thesis/capstone project worth mentioning.
+              Graduate coursework focused on data science, big data systems, and machine learning, alongside work as a Graduate Administrative Assistant in Data Management.
             </p>
             <div className="timeline-tags">
-              <span className="tag">Data Structures</span>
-              <span className="tag">Algorithms</span>
-              <span className="tag">Databases</span>
+              <span className="tag">Data Science</span>
+              <span className="tag">Big Data</span>
+              <span className="tag">Machine Learning</span>
+              <span className="tag">Linear Algebra</span>
             </div>
           </div>
 
           <div className="timeline-item">
             <span className="timeline-marker" aria-hidden="true"></span>
-            <div className="timeline-year">2021</div>
-            <h3 className="timeline-title">Certificate / Bootcamp Name</h3>
-            <div className="timeline-school">Program Name</div>
+            <div className="timeline-year">2022 — May 2026</div>
+            <h3 className="timeline-title">Bachelor of Science in Computer Science</h3>
+            <div className="timeline-school">Georgia State University — Atlanta, GA</div>
             <p className="timeline-desc">
-              Placeholder — swap in a real credential, bootcamp, or self-directed learning milestone if relevant.
+              Undergraduate CS with a strong systems and web-development core, plus internships in software engineering, AI agent development, and data analytics.
             </p>
             <div className="timeline-tags">
-              <span className="tag">Full-Stack Web Dev</span>
+              <span className="tag">Data Structures</span>
+              <span className="tag">Design &amp; Analysis of Algorithms</span>
+              <span className="tag">Database Systems</span>
+              <span className="tag">Web Programming</span>
+              <span className="tag">System-Level Programming</span>
+              <span className="tag">Software Development</span>
             </div>
           </div>
         </div>

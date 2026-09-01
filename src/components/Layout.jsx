@@ -26,7 +26,7 @@ export default function Layout({ crumb, children }) {
       {children}
 
       <footer className="site-footer">
-        <span>© 2026 Your Name</span>
+        <span>© 2026 Tazrian Ahsan</span>
         <button
           className="topbar-back"
           style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer' }}

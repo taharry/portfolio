@@ -6,8 +6,8 @@ const ITEMS = [
   { index: '01', label: 'About Me', desc: 'Background & skills', path: '/about', external: false },
   { index: '02', label: 'Projects', desc: 'Selected work', path: '/projects', external: false },
   { index: '03', label: 'Education', desc: 'Degrees & coursework', path: '/education', external: false },
-  { index: '04', label: 'GitHub', desc: null, path: 'https://github.com/yourusername', external: true },
-  { index: '05', label: 'LinkedIn', desc: null, path: 'https://linkedin.com/in/yourusername', external: true },
+  { index: '04', label: 'GitHub', desc: null, path: 'https://github.com/taharry', external: true },
+  { index: '05', label: 'LinkedIn', desc: null, path: 'https://linkedin.com/in/tazrian-ahsan', external: true },
 ];
 
 export default function Menu() {
@@ -45,9 +45,9 @@ export default function Menu() {
         <div className="menu-eyebrow">// Select a section</div>
         <div className="menu-name-wrap">
           <span className="menu-slash-bar" aria-hidden="true"></span>
-          <h1 className="menu-name display">Your Name</h1>
+          <h1 className="menu-name display">Tazrian Ahsan</h1>
         </div>
-        <p className="menu-role">Software Developer</p>
+        <p className="menu-role">Full-Stack Developer &middot; AI &amp; Data Engineering</p>
         <p className="menu-hint">
           Navigate with <kbd>&uarr;</kbd><kbd>&darr;</kbd> and <kbd>Enter</kbd>
         </p>
@@ -88,7 +88,7 @@ export default function Menu() {
         </ul>
       </nav>
 
-      <p className="menu-footer">© 2026 Your Name</p>
+      <p className="menu-footer">© 2026 Tazrian Ahsan</p>
       <HintBar showBack={false} />
     </div>
   );

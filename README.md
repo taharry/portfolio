@@ -1,4 +1,4 @@
-#Portfolio
+# Tazrian Ahsan — Portfolio
 
 A Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.
 

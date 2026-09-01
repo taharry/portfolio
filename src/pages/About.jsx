@@ -17,19 +17,25 @@ export default function About() {
       >
         <div className="about-text">
           <p style={{ fontSize: 18, lineHeight: 1.75, color: '#CFC9BE', maxWidth: '58ch', marginBottom: 20 }}>
-            Placeholder bio — swap this out. Two or three sentences about who you are, what kind of problems you like solving, and what you're looking for right now (freelance, full-time, collabs, etc).
+            I'm a Computer Science grad student at Georgia State University, working on my M.S. after finishing my B.S. this year. I build full-stack web apps and the data pipelines behind them — React and TypeScript on the front, Node, FastAPI, and Spring Boot on the back, and a lot of Python, SQL, and ETL work in between.
+          </p>
+          <p style={{ fontSize: 18, lineHeight: 1.75, color: '#CFC9BE', maxWidth: '58ch', marginBottom: 20 }}>
+            Lately most of my work sits where software engineering meets data and AI: shipping REST APIs over NASA aerospace datasets at RocketTech, wiring up LLM and NLP automation with n8n at Wayfair, and cleaning, validating, and reporting on institutional data as a Graduate Assistant at GSU.
           </p>
           <p style={{ fontSize: 18, lineHeight: 1.75, color: '#CFC9BE', maxWidth: '58ch' }}>
-            Keep it conversational and specific — this is the one place on the page people expect to hear your actual voice, not a résumé summary.
+            I like problems where a messy dataset or a slow query turns into something people can actually use. Currently open to full-time software engineering and data roles for 2026.
           </p>
         </div>
 
         <ul className="rank-list">
           {[
-            { title: 'Languages', sub: 'JavaScript / TypeScript / Python', rank: 4, fill: 80 },
-            { title: 'Frontend', sub: 'React / Vue / Tailwind', rank: 4, fill: 80 },
-            { title: 'Backend', sub: 'Node.js / PostgreSQL / REST & GraphQL', rank: 3, fill: 60 },
-            { title: 'Tools', sub: 'Git / Docker / Figma', rank: 3, fill: 60 },
+            { title: 'Languages', sub: 'Python / SQL / Java / TypeScript / C++', rank: 4, fill: 82 },
+            { title: 'Frontend', sub: 'React / TypeScript / HTML & CSS', rank: 3, fill: 68 },
+            { title: 'Backend & APIs', sub: 'Node.js / Express / FastAPI / Spring Boot', rank: 4, fill: 78 },
+            { title: 'Data & Analytics', sub: 'Pandas / NumPy / scikit-learn / Power BI', rank: 4, fill: 80 },
+            { title: 'Databases & ETL', sub: 'MySQL / PostgreSQL / MongoDB / Data Pipelines', rank: 4, fill: 80 },
+            { title: 'AI & Automation', sub: 'LLM Workflows / NLP / n8n / Prompt Engineering', rank: 3, fill: 66 },
+            { title: 'Tools & Cloud', sub: 'Git / GitHub Actions / Docker / AWS', rank: 3, fill: 64 },
           ].map((s) => (
             <li className="rank-row" key={s.title}>
               <div className="rank-title-group">

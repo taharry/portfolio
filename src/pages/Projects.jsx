@@ -3,32 +3,25 @@ import CutoutTitle from '../components/CutoutTitle';
 
 const FEATURED = [
   {
-    badge: 'LIVE APP',
-    title: '7th Semester Project',
-    desc: 'Project for EOE — placeholder description.',
-    status: 'Live now',
-    href: '#',
+    badge: 'FULL-STACK / AI',
+    title: 'LingoQuest — AI Language Learning Platform',
+    desc: 'Scalable full-stack platform (React, Spring Boot, FastAPI, MySQL) with JWT auth and REST APIs. LLM, NLP, and speech services power conversational tutoring and pronunciation analysis, with adaptive backend logic that tunes difficulty and tracks learner performance.',
+    status: 'React · Spring Boot · FastAPI · MySQL',
+    href: 'https://github.com/taharry',
   },
   {
-    badge: 'NLP',
-    title: 'Oscilloscope',
-    desc: 'Code for digital oscilloscope on Raspberry Pi — placeholder description.',
-    status: 'Highlight',
-    href: '#',
-  },
-  {
-    badge: 'SECURITY',
-    title: 'Important Page',
-    desc: 'Just a page — placeholder description.',
-    status: 'Highlight',
-    href: '#',
+    badge: 'AI CHATBOT',
+    title: 'WellCo — AI Wellness Chatbot',
+    desc: 'AI-powered web app (React, Firebase, Gemini API, NLP) that generates personalized wellness recommendations from user input. Firebase Auth and real-time sync handle secure sessions; a sentiment-analysis workflow reaches ~75% mood-classification accuracy.',
+    status: 'React · Firebase · Gemini API · NLP',
+    href: 'https://github.com/taharry/WellCo',
   },
 ];
 
 const REPOS = [
-  { title: '7th Semester Project', lang: 'REPO', desc: 'Placeholder repo used for EOE.', stars: 3, href: '#' },
-  { title: 'Oscilloscope', lang: 'PYTHON', desc: 'No description yet, but the code speaks for itself.', stars: 0, href: '#' },
-  { title: 'Important Page', lang: 'HTML', desc: 'No description yet, but this code speaks for itself.', stars: 0, href: '#' },
+  { title: 'portfolio', lang: 'CSS', desc: 'This site — a Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.', stars: 0, href: 'https://github.com/taharry/portfolio' },
+  { title: 'WellCo', lang: 'REACT', desc: 'AI wellness chatbot: React + Firebase + Gemini API with sentiment analysis and real-time sync.', stars: 0, href: 'https://github.com/taharry/WellCo' },
+  { title: 'BeastMode', lang: 'DART', desc: 'Flutter/Dart mobile app project.', stars: 0, href: 'https://github.com/taharry/BeastMode' },
 ];
 
 export default function Projects() {
@@ -65,7 +58,7 @@ export default function Projects() {
         <div className="projects-subhead">
           <span className="projects-subhead-bar"></span>
           <span className="projects-subhead-label display">All Repositories</span>
-          <span className="projects-subhead-count">{REPOS.length} repositories &middot; live from GitHub</span>
+          <span className="projects-subhead-count">{REPOS.length} repositories &middot; github.com/taharry</span>
         </div>
 
         <div className="repo-grid">
@@ -83,10 +76,6 @@ export default function Projects() {
             </div>
           ))}
         </div>
-
-        <p className="card-placeholder-note" style={{ marginTop: 24 }}>
-          Placeholder — swap the FEATURED and REPOS arrays in Projects.jsx with your real projects and GitHub links.
-        </p>
       </section>
     </Layout>
   );
