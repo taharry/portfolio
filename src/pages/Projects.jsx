@@ -1,17 +1,18 @@
 import Layout from '../components/Layout';
 import CutoutTitle from '../components/CutoutTitle';
+import SplatterBackground from '../components/SplatterBackground';
 
 const FEATURED = [
   {
     badge: 'FULL-STACK / AI',
-    title: 'LingoQuest — AI Language Learning Platform',
+    title: 'LingoQuest: AI Language Learning Platform',
     desc: 'Scalable full-stack platform (React, Spring Boot, FastAPI, MySQL) with JWT auth and REST APIs. LLM, NLP, and speech services power conversational tutoring and pronunciation analysis, with adaptive backend logic that tunes difficulty and tracks learner performance.',
     status: 'React · Spring Boot · FastAPI · MySQL',
     href: 'https://github.com/taharry',
   },
   {
     badge: 'AI CHATBOT',
-    title: 'WellCo — AI Wellness Chatbot',
+    title: 'WellCo: AI Wellness Chatbot',
     desc: 'AI-powered web app (React, Firebase, Gemini API, NLP) that generates personalized wellness recommendations from user input. Firebase Auth and real-time sync handle secure sessions; a sentiment-analysis workflow reaches ~75% mood-classification accuracy.',
     status: 'React · Firebase · Gemini API · NLP',
     href: 'https://github.com/taharry/WellCo',
@@ -19,7 +20,7 @@ const FEATURED = [
 ];
 
 const REPOS = [
-  { title: 'portfolio', lang: 'CSS', desc: 'This site — a Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.', stars: 0, href: 'https://github.com/taharry/portfolio' },
+  { title: 'portfolio', lang: 'Javascript', desc: 'This site: a Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.', stars: 0, href: 'https://github.com/taharry/portfolio' },
   { title: 'WellCo', lang: 'REACT', desc: 'AI wellness chatbot: React + Firebase + Gemini API with sentiment analysis and real-time sync.', stars: 0, href: 'https://github.com/taharry/WellCo' },
   { title: 'BeastMode', lang: 'DART', desc: 'Flutter/Dart mobile app project.', stars: 0, href: 'https://github.com/taharry/BeastMode' },
 ];
@@ -27,7 +28,8 @@ const REPOS = [
 export default function Projects() {
   return (
     <Layout crumb="PROJECTS">
-      <header className="page-header page-header-bg halftone">
+      <header className="page-header page-header--split halftone">
+        <SplatterBackground className="splatter-bg--header" seed={12} variant="split" />
         <div className="page-eyebrow">// 02</div>
         <div className="page-title-wrap">
           <CutoutTitle text="Projects" />

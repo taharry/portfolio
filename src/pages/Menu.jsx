@@ -1,6 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HintBar from '../components/HintBar';
+import MuteToggle from '../components/MuteToggle';
+import SplatterBackground from '../components/SplatterBackground';
+import useSfx from '../hooks/useSfx';
 
 const ITEMS = [
   { index: '01', label: 'About Me', desc: 'Background & skills', path: '/about', external: false },
@@ -12,24 +15,34 @@ const ITEMS = [
 
 export default function Menu() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeRef = useRef(0);
   const navigate = useNavigate();
+  const { playHover, playConfirm, muted, toggleMuted } = useSfx();
 
   const activate = useCallback((item) => {
+    playConfirm();
     if (item.external) {
       window.open(item.path, '_blank', 'noopener,noreferrer');
     } else {
       navigate(item.path);
     }
-  }, [navigate]);
+  }, [navigate, playConfirm]);
+
+  const focusIndex = useCallback((i) => {
+    if (activeRef.current === i) return;
+    activeRef.current = i;
+    setActiveIndex(i);
+    playHover();
+  }, [playHover]);
 
   useEffect(() => {
     function onKeyDown(e) {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setActiveIndex((i) => (i + 1) % ITEMS.length);
+        focusIndex((activeIndex + 1) % ITEMS.length);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setActiveIndex((i) => (i - 1 + ITEMS.length) % ITEMS.length);
+        focusIndex((activeIndex - 1 + ITEMS.length) % ITEMS.length);
       } else if (e.key === 'Enter') {
         e.preventDefault();
         activate(ITEMS[activeIndex]);
@@ -37,10 +50,11 @@ export default function Menu() {
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [activeIndex, activate]);
+  }, [activeIndex, activate, focusIndex]);
 
   return (
     <div className="menu-page halftone">
+      <SplatterBackground className="splatter-bg--menu" seed={42} />
       <div className="menu-header">
         <div className="menu-eyebrow">// Select a section</div>
         <div className="menu-name-wrap">
@@ -66,7 +80,9 @@ export default function Menu() {
                   href={item.path}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onMouseEnter={() => setActiveIndex(i)}
+                  onMouseEnter={() => focusIndex(i)}
+                  onFocus={() => focusIndex(i)}
+                  onClick={playConfirm}
                 >
                   <span className="menu-index">{item.index}</span>
                   <span className="menu-label display">{item.label}</span>
@@ -76,7 +92,8 @@ export default function Menu() {
                 <button
                   className={`menu-link${i === activeIndex ? ' is-active' : ''}`}
                   onClick={() => activate(item)}
-                  onMouseEnter={() => setActiveIndex(i)}
+                  onMouseEnter={() => focusIndex(i)}
+                  onFocus={() => focusIndex(i)}
                 >
                   <span className="menu-index">{item.index}</span>
                   <span className="menu-label display">{item.label}</span>
@@ -89,6 +106,7 @@ export default function Menu() {
       </nav>
 
       <p className="menu-footer">© 2026 Tazrian Ahsan</p>
+      <MuteToggle muted={muted} onToggle={toggleMuted} />
       <HintBar showBack={false} />
     </div>
   );
