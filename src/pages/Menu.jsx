@@ -5,12 +5,39 @@ import MuteToggle from '../components/MuteToggle';
 import SplatterBackground from '../components/SplatterBackground';
 import useSfx from '../hooks/useSfx';
 
+// Ransom-note lettering: every glyph gets its own deterministic rotation,
+// vertical bounce and scale, like the Persona 5 pause menu.
+function JitterText({ text }) {
+  return (
+    <span className="jt" aria-label={text}>
+      {text.split('').map((ch, i) => {
+        const seed = i * 13 + text.charCodeAt(i % text.length) + text.length * 5;
+        const rot = (((seed % 11) - 5) / 5) * 9; // ~ -9deg .. +9deg
+        const dy = (((seed >> 1) % 7) - 3) * 2.4; // ~ -7px .. +7px
+        const sc = 1 + ((((seed >> 2) % 5) - 2) / 2) * 0.14; // ~ 0.86 .. 1.14
+        const isSpace = ch === ' ';
+        return (
+          <span
+            key={i}
+            className={isSpace ? 'jt-sp' : 'jt-ch'}
+            aria-hidden="true"
+            style={isSpace ? undefined : { '--rot': `${rot.toFixed(2)}deg`, '--dy': `${dy.toFixed(2)}px`, '--sc': sc.toFixed(3) }}
+          >
+            {ch === ' ' ? ' ' : ch}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 const ITEMS = [
   { index: '01', label: 'About Me', desc: 'Background & skills', path: '/about', external: false },
   { index: '02', label: 'Projects', desc: 'Selected work', path: '/projects', external: false },
   { index: '03', label: 'Education', desc: 'Degrees & coursework', path: '/education', external: false },
-  { index: '04', label: 'GitHub', desc: null, path: 'https://github.com/taharry', external: true },
-  { index: '05', label: 'LinkedIn', desc: null, path: 'https://linkedin.com/in/tazrian-ahsan', external: true },
+  { index: '04', label: 'Contact', desc: 'Get in touch', path: '/contact', external: false },
+  { index: '05', label: 'GitHub', desc: null, path: 'https://github.com/taharry', external: true },
+  { index: '06', label: 'LinkedIn', desc: null, path: 'https://linkedin.com/in/tazrian-ahsan', external: true },
 ];
 
 export default function Menu() {
@@ -80,12 +107,13 @@ export default function Menu() {
                   href={item.path}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${item.label} (opens in a new tab)`}
                   onMouseEnter={() => focusIndex(i)}
                   onFocus={() => focusIndex(i)}
                   onClick={playConfirm}
                 >
                   <span className="menu-index">{item.index}</span>
-                  <span className="menu-label display">{item.label}</span>
+                  <span className="menu-label display"><JitterText text={item.label} /></span>
                   <span className="menu-external-tag">&#8599; external</span>
                 </a>
               ) : (
@@ -94,9 +122,10 @@ export default function Menu() {
                   onClick={() => activate(item)}
                   onMouseEnter={() => focusIndex(i)}
                   onFocus={() => focusIndex(i)}
+                  aria-label={`${item.label}${item.desc ? `, ${item.desc}` : ''}`}
                 >
                   <span className="menu-index">{item.index}</span>
-                  <span className="menu-label display">{item.label}</span>
+                  <span className="menu-label display"><JitterText text={item.label} /></span>
                   <span className="menu-desc">{item.desc}</span>
                 </button>
               )}

@@ -3,6 +3,7 @@ import Menu from './pages/Menu';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Education from './pages/Education';
+import Contact from './pages/Contact';
 import StripeTransition from './components/StripeTransition';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/education" element={<Education />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </>
   );
