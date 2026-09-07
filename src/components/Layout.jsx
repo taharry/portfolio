@@ -77,10 +77,6 @@ export default function Layout({ crumb, children }) {
         <span>© 2026 Tazrian Ahsan</span>
       </footer>
 
-      <button className="floating-back" onClick={goMenu} aria-label="Back to menu">
-        <span className="bar" aria-hidden="true"></span>
-        Menu
-      </button>
       <MuteToggle muted={muted} onToggle={toggleMuted} />
     </>
   );

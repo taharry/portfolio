@@ -774,6 +774,18 @@ footer.site-footer {
 .menu-link:hover .menu-index,
 .menu-link.is-active .menu-index { color: var(--red-hot); }
 
+/* touch devices keep :hover stuck on the last tap — only the JS-driven
+   .is-active state should show selection there */
+@media (hover: none) {
+  .menu-link:not(.is-active):hover { transform: none; }
+  .menu-link:not(.is-active):hover .menu-label {
+    color: var(--cream);
+    -webkit-text-stroke-width: 2.5px;
+    text-shadow: 3px 3px 0 var(--black);
+  }
+  .menu-link:not(.is-active):hover .menu-index { color: var(--red); }
+}
+
 .menu-desc {
   position: absolute;
   left: 100%;
@@ -826,7 +838,20 @@ footer.site-footer {
 
 @media (max-width: 560px) {
   .menu-item { --dx: 0 !important; }
-  .menu-label { font-size: clamp(30px, 9.5vw, 52px); }
+  .menu-label {
+    font-size: clamp(30px, 9.5vw, 52px);
+    -webkit-text-stroke-width: 2.25px;
+    text-shadow: 3px 3px 0 var(--black);
+  }
+  .menu-link:hover .menu-label,
+  .menu-link.is-active .menu-label,
+  .menu-link:active .menu-label {
+    -webkit-text-stroke-width: 2.75px;
+    text-shadow: 4px 4px 0 var(--black);
+  }
+  .menu-link:hover, .menu-link.is-active, .menu-link:active {
+    transform: scale(1.04) rotate(calc(var(--tilt, 0deg) * -0.3));
+  }
   .menu-name { font-size: clamp(32px, 11vw, 52px); }
   .menu-index {
     position: static;
@@ -1312,32 +1337,6 @@ footer.site-footer { position: relative; z-index: 1; }
   .mute-toggle { right: 4vw; bottom: max(16px, env(safe-area-inset-bottom, 16px)); padding: 9px; }
 }
 
-/* ===== FLOATING BACK (mobile) ===== */
-.floating-back {
-  position: fixed;
-  left: 4vw;
-  bottom: max(16px, env(safe-area-inset-bottom, 16px));
-  z-index: 300;
-  display: none;
-  align-items: center;
-  gap: 9px;
-  padding: 11px 18px 11px 14px;
-  background: var(--red);
-  color: var(--cream);
-  border: none;
-  font-family: 'Anton', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 11px) 100%, 0 100%);
-  box-shadow: 4px 4px 0 var(--black);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.floating-back .bar { width: 16px; height: 3px; background: var(--cream); transform: skewX(-20deg); }
-.floating-back:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--black); }
-@media (max-width: 760px) {
-  .floating-back { display: inline-flex; }
-}
 
 /* ===== CONTACT ===== */
 .contact-grid {
