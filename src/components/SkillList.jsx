@@ -73,7 +73,7 @@ export default function SkillList() {
       onMouseEnter={() => (hoverRef.current = true)}
       onMouseLeave={() => (hoverRef.current = false)}
     >
-      <div className="rank-heading"><span>Skill</span></div>
+      <div className="rank-heading"><span>Skillset</span></div>
       <ul
         className="rank-list"
         role="listbox"
@@ -109,7 +109,6 @@ export default function SkillList() {
           </li>
         ))}
       </ul>
-      <div className="rank-scrollhint" aria-hidden="true">&#9650; &#9660; cycle &middot; hover or arrow keys</div>
     </div>
   );
 }

@@ -18,11 +18,22 @@ export default function Contact() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
+  function mailtoUrl() {
+    const subject = encodeURIComponent(`Portfolio contact from ${name || 'someone'}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    return `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    const subject = `Portfolio contact from ${name || 'someone'}`;
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // An anchor click triggers the OS mail handler more reliably than
+    // assigning window.location in an SPA.
+    const a = document.createElement('a');
+    a.href = mailtoUrl();
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
 
   return (
@@ -90,9 +101,6 @@ export default function Contact() {
           </div>
 
           <button type="submit" className="cut-btn">Send Message &rarr;</button>
-          <p className="form-note">
-            Submitting opens a draft in your email app addressed to me. It doesn't send anything automatically.
-          </p>
         </form>
       </section>
     </Layout>

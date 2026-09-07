@@ -8,7 +8,7 @@ const BIO_ENTRIES = [
   {
     title: 'Tazrian Ahsan',
     tagline: 'Full-Stack Developer · AI & Data Engineering',
-    body: "CS grad student at Georgia State University, graduated with B.S. this year and continuing into the M.S. I build full-stack web apps and the data pipelines behind them, and I like problems where a messy dataset or a slow query turns into something people can actually use.",
+    body: "Starting my graduate studies at Georgia State University, I graduated with a B.S. in Computer Science this year. I build full-stack web apps and the data pipelines behind them, and I like problems where a messy dataset or a slow query turns into something people can actually use.",
   },
   {
     title: 'RocketTech',

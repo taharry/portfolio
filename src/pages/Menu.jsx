@@ -1,35 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HintBar from '../components/HintBar';
 import MuteToggle from '../components/MuteToggle';
 import SplatterBackground from '../components/SplatterBackground';
+import JitterText from '../components/JitterText';
 import useSfx from '../hooks/useSfx';
-
-// Ransom-note lettering: every glyph gets its own deterministic rotation,
-// vertical bounce and scale, like the Persona 5 pause menu.
-function JitterText({ text }) {
-  return (
-    <span className="jt" aria-label={text}>
-      {text.split('').map((ch, i) => {
-        const seed = i * 13 + text.charCodeAt(i % text.length) + text.length * 5;
-        const rot = (((seed % 11) - 5) / 5) * 9; // ~ -9deg .. +9deg
-        const dy = (((seed >> 1) % 7) - 3) * 2.4; // ~ -7px .. +7px
-        const sc = 1 + ((((seed >> 2) % 5) - 2) / 2) * 0.14; // ~ 0.86 .. 1.14
-        const isSpace = ch === ' ';
-        return (
-          <span
-            key={i}
-            className={isSpace ? 'jt-sp' : 'jt-ch'}
-            aria-hidden="true"
-            style={isSpace ? undefined : { '--rot': `${rot.toFixed(2)}deg`, '--dy': `${dy.toFixed(2)}px`, '--sc': sc.toFixed(3) }}
-          >
-            {ch === ' ' ? ' ' : ch}
-          </span>
-        );
-      })}
-    </span>
-  );
-}
 
 const ITEMS = [
   { index: '01', label: 'About Me', desc: 'Background & skills', path: '/about', external: false },
@@ -89,9 +63,6 @@ export default function Menu() {
           <h1 className="menu-name display">Tazrian Ahsan</h1>
         </div>
         <p className="menu-role">Full-Stack Developer &middot; AI &amp; Data Engineering</p>
-        <p className="menu-hint">
-          Navigate with <kbd>&uarr;</kbd><kbd>&darr;</kbd> and <kbd>Enter</kbd>
-        </p>
       </div>
 
       <nav aria-label="Main sections">
@@ -136,7 +107,6 @@ export default function Menu() {
 
       <p className="menu-footer">© 2026 Tazrian Ahsan</p>
       <MuteToggle muted={muted} onToggle={toggleMuted} />
-      <HintBar showBack={false} />
     </div>
   );
 }

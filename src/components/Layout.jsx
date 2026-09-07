@@ -1,6 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import HintBar from './HintBar';
 import MuteToggle from './MuteToggle';
 import SplatterBackground from './SplatterBackground';
 import useSfx from '../hooks/useSfx';
@@ -72,17 +71,17 @@ export default function Layout({ crumb, children }) {
       {children}
 
       <footer className="site-footer">
+        {location.pathname !== '/contact' && (
+          <Link className="footer-contact" to="/contact">Contact me &rarr;</Link>
+        )}
         <span>© 2026 Tazrian Ahsan</span>
-        <button
-          className="topbar-back"
-          style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer' }}
-          onClick={goMenu}
-        >
-          Back to menu
-        </button>
       </footer>
+
+      <button className="floating-back" onClick={goMenu} aria-label="Back to menu">
+        <span className="bar" aria-hidden="true"></span>
+        Menu
+      </button>
       <MuteToggle muted={muted} onToggle={toggleMuted} />
-      <HintBar showBack={true} />
     </>
   );
 }

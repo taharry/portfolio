@@ -1,6 +1,35 @@
 import Layout from '../components/Layout';
 import CutoutTitle from '../components/CutoutTitle';
 import SplatterBackground from '../components/SplatterBackground';
+import JitterText from '../components/JitterText';
+
+const TIMELINE = [
+  {
+    year: '2026 to Expected May 2028',
+    title: 'Master of Science in Computer Science',
+    school: 'Georgia State University, Atlanta, GA',
+    desc: 'Graduate coursework in robotics, advanced machine learning, and the fundamentals of data science, alongside work as a Graduate Administrative Assistant in Data Management.',
+    courses: ['Introduction to Robotics', 'Advanced Machine Learning', 'Fundamentals of Data Science'],
+  },
+  {
+    year: '2022 to May 2026',
+    title: 'Bachelor of Science in Computer Science',
+    school: 'Georgia State University, Atlanta, GA',
+    desc: 'Undergraduate CS with a strong systems and web-development core, plus internships in software engineering, AI agent development, and data analytics.',
+    courses: [
+      'Data Structures',
+      'Design & Analysis of Algorithms',
+      'Database Systems',
+      'Web Programming',
+      'System-Level Programming',
+      'Software Development',
+      'Data Science',
+      'Big Data',
+      'Machine Learning',
+      'Linear Algebra',
+    ],
+  },
+];
 
 export default function Education() {
   return (
@@ -16,42 +45,28 @@ export default function Education() {
 
       <section>
         <div className="timeline">
-          <div className="timeline-item">
-            <span className="timeline-marker" aria-hidden="true"></span>
-            <div className="timeline-year">2026 to Expected May 2028</div>
-            <h3 className="timeline-title">Master of Science in Computer Science</h3>
-            <div className="timeline-school">Georgia State University, Atlanta, GA</div>
-            <p className="timeline-desc">
-              Graduate coursework in robotics, advanced machine learning, and the fundamentals of data science, alongside work as a Graduate Administrative Assistant in Data Management.
-            </p>
-            <div className="timeline-tags">
-              <span className="tag">Introduction to Robotics</span>
-              <span className="tag">Advanced Machine Learning</span>
-              <span className="tag">Fundamentals of Data Science</span>
+          {TIMELINE.map((t) => (
+            <div className="edu-item" key={t.title}>
+              <span className="edu-marker" aria-hidden="true"></span>
+              <article className="edu-card">
+                <span className="case-burst" aria-hidden="true"></span>
+                <div className="edu-card-head">
+                  <span className="edu-year">{t.year}</span>
+                  <h3 className="edu-title"><JitterText text={t.title} amp={0.8} /></h3>
+                  <div className="edu-school">{t.school}</div>
+                </div>
+                <div className="edu-card-body">
+                  <span className="case-rule" aria-hidden="true"></span>
+                  <p className="edu-desc">{t.desc}</p>
+                  <ul className="case-tags">
+                    {t.courses.map((c) => (
+                      <li key={c}>{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
             </div>
-          </div>
-
-          <div className="timeline-item">
-            <span className="timeline-marker" aria-hidden="true"></span>
-            <div className="timeline-year">2022 to May 2026</div>
-            <h3 className="timeline-title">Bachelor of Science in Computer Science</h3>
-            <div className="timeline-school">Georgia State University, Atlanta, GA</div>
-            <p className="timeline-desc">
-              Undergraduate CS with a strong systems and web-development core, plus internships in software engineering, AI agent development, and data analytics.
-            </p>
-            <div className="timeline-tags">
-              <span className="tag">Data Structures</span>
-              <span className="tag">Design &amp; Analysis of Algorithms</span>
-              <span className="tag">Database Systems</span>
-              <span className="tag">Web Programming</span>
-              <span className="tag">System-Level Programming</span>
-              <span className="tag">Software Development</span>
-              <span className="tag">Data Science</span>
-              <span className="tag">Big Data</span>
-              <span className="tag">Machine Learning</span>
-              <span className="tag">Linear Algebra</span>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
     </Layout>

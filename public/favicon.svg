@@ -3,6 +3,6 @@
   <g transform="rotate(-8 32 32)">
     <path
       d="M32 6 L36.02 22.30 L50.38 13.62 L41.70 27.98 L58 32 L41.70 36.02 L50.38 50.38 L36.02 41.70 L32 58 L27.98 41.70 L13.62 50.38 L22.30 36.02 L6 32 L22.30 27.98 L13.62 13.62 L27.98 22.30 Z"
-      fill="#E4001B" stroke="#F2EDE4" stroke-width="2.5" stroke-linejoin="miter"/>
+      fill="#D92323" stroke="#F2EDE4" stroke-width="2.5" stroke-linejoin="miter"/>
   </g>
 </svg>

@@ -21,7 +21,6 @@ const FEATURED = [
 
 const REPOS = [
   { title: 'portfolio', lang: 'Javascript', desc: 'This site: a Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.', stars: 0, href: 'https://github.com/taharry/portfolio' },
-  { title: 'WellCo', lang: 'REACT', desc: 'AI wellness chatbot: React + Firebase + Gemini API with sentiment analysis and real-time sync.', stars: 0, href: 'https://github.com/taharry/WellCo' },
   { title: 'BeastMode', lang: 'DART', desc: 'Flutter/Dart mobile app project.', stars: 0, href: 'https://github.com/taharry/BeastMode' },
 ];
 
@@ -37,45 +36,48 @@ export default function Projects() {
         <p className="page-sub">A few things I've built. More case files added as they ship.</p>
       </header>
 
-      <section>
+      <section className="projects-section">
         <div className="projects-subhead">
-          <span className="projects-subhead-bar"></span>
-          <span className="projects-subhead-label display">Featured</span>
+          <span className="section-tab"><span>Featured</span></span>
         </div>
 
         <div className="featured-grid">
           {FEATURED.map((p) => (
-            <div className="featured-card" key={p.title}>
-              <span className="featured-card-badge">{p.badge}</span>
-              <div className="featured-card-title">{p.title}</div>
-              <p className="featured-card-desc">{p.desc}</p>
-              <div className="featured-card-foot">
-                <span className="featured-card-status">{p.status}</span>
-                <a className="gh-btn" href={p.href}>View on GitHub &rarr;</a>
+            <article className="case-card" key={p.title}>
+              <span className="case-burst" aria-hidden="true"></span>
+              <div className="case-card-head">
+                <span className="case-badge">{p.badge}</span>
+                <h3 className="case-title">{p.title}</h3>
               </div>
-            </div>
+              <div className="case-card-body">
+                <span className="case-rule" aria-hidden="true"></span>
+                <p className="case-desc">{p.desc}</p>
+                <ul className="case-tags">
+                  {p.status.split(' · ').map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+                <a className="case-btn" href={p.href}>View on GitHub &rarr;</a>
+              </div>
+            </article>
           ))}
         </div>
 
         <div className="projects-subhead">
-          <span className="projects-subhead-bar"></span>
-          <span className="projects-subhead-label display">All Repositories</span>
-          <span className="projects-subhead-count">{REPOS.length} repositories &middot; github.com/taharry</span>
+          <span className="section-tab"><span>All Repositories</span></span>
         </div>
 
         <div className="repo-grid">
           {REPOS.map((r) => (
-            <div className="repo-card" key={r.title}>
-              <div className="repo-card-top">
-                <span className="repo-card-title">{r.title}</span>
-                <span className="repo-lang-tag">{r.lang}</span>
-              </div>
+            <article className="repo-card" key={r.title}>
+              <span className="repo-lang-tag">{r.lang}</span>
+              <h4 className="repo-card-title">{r.title}</h4>
               <p className="repo-card-desc">{r.desc}</p>
               <div className="repo-card-foot">
                 <span className="repo-stars">&#9733; {r.stars}</span>
-                <a className="gh-btn" href={r.href}>View on GitHub &rarr;</a>
+                <a className="case-btn case-btn--sm" href={r.href}>View on GitHub &rarr;</a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>
