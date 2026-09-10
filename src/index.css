@@ -1014,7 +1014,7 @@ footer.site-footer {
 .case-title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(20px, 2.7vw, 28px);
-  line-height: 1.04;
+  line-height: 1.14;
   color: var(--cream);
   -webkit-text-stroke: 2px var(--black);
   paint-order: stroke fill;
@@ -1158,6 +1158,51 @@ footer.site-footer {
 .repo-card-desc { font-size: 13px; color: #B7B0A8; line-height: 1.55; flex: 1; }
 .repo-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
 .repo-stars { font-family: 'Anton', sans-serif; font-size: 14px; letter-spacing: 0.04em; color: var(--red-hot); }
+
+@media (max-width: 600px) {
+  .featured-grid { gap: 26px; margin-bottom: 52px; }
+
+  /* no card rotation on mobile: rotating -webkit-text-stroke text mangles
+     the cel-shaded title glyphs in Chrome */
+  .case-card,
+  .case-card:nth-child(even) {
+    transform: none;
+    box-shadow: 5px 6px 0 var(--black);
+  }
+  .case-card:hover { transform: translateY(-4px); }
+
+  /* flat header on mobile: the diagonal clip was cutting the wrapped title */
+  .case-card-head {
+    padding: 18px 18px 20px;
+    clip-path: none;
+  }
+  .case-card-body { padding: 22px 18px 24px; }
+  .case-title {
+    font-size: 19px;
+    line-height: 1.22;
+    letter-spacing: 0;
+    -webkit-text-stroke-width: 1px;
+    text-shadow: 2px 2px 0 var(--black);
+  }
+  .case-badge { margin-left: 0; font-size: 10px; }
+  .case-burst { width: 140px; height: 140px; right: -42px; bottom: -42px; opacity: 0.12; }
+  .case-desc { font-size: 13.5px; }
+  .case-rule { margin-bottom: 14px; }
+  .case-btn { padding: 10px 18px; }
+
+  .repo-card,
+  .repo-card:nth-child(even),
+  .repo-card:nth-child(3n) {
+    transform: none;
+    padding: 20px 18px 18px 24px;
+    box-shadow: 5px 6px 0 var(--black);
+  }
+  .repo-card:hover { transform: translateY(-4px); }
+  .repo-card-title { -webkit-text-stroke-width: 0.75px; }
+
+  /* decorative page splatter is overpowering on small screens */
+  .bg-splatter { opacity: 0.45; }
+}
 
 /* ===== SPLATTER BACKGROUND ===== */
 .splatter-bg {

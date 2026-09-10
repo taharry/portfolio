@@ -18,22 +18,11 @@ export default function Contact() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  function mailtoUrl() {
-    const subject = encodeURIComponent(`Portfolio contact from ${name || 'someone'}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    return `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
-    // An anchor click triggers the OS mail handler more reliably than
-    // assigning window.location in an SPA.
-    const a = document.createElement('a');
-    a.href = mailtoUrl();
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const subject = encodeURIComponent(`Portfolio contact from ${name || 'someone'}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
   }
 
   return (

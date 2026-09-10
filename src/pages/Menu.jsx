@@ -11,7 +11,7 @@ const ITEMS = [
   { index: '03', label: 'Education', desc: 'Degrees & coursework', path: '/education', external: false },
   { index: '04', label: 'Contact', desc: 'Get in touch', path: '/contact', external: false },
   { index: '05', label: 'GitHub', desc: null, path: 'https://github.com/taharry', external: true },
-  { index: '06', label: 'LinkedIn', desc: null, path: 'https://linkedin.com/in/tazrian-ahsan', external: true },
+  { index: '06', label: 'LinkedIn', desc: null, path: 'https://www.linkedin.com/in/tazrian-ahsan-7a3315283', external: true },
 ];
 
 export default function Menu() {
