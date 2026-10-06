@@ -3,6 +3,7 @@ import CutoutTitle from '../components/CutoutTitle';
 import SplatterBackground from '../components/SplatterBackground';
 import BioCard from '../components/BioCard';
 import SkillList from '../components/SkillList';
+import PortraitBadge from '../components/PortraitBadge';
 
 const BIO_ENTRIES = [
   {
@@ -45,6 +46,7 @@ export default function About() {
 
       <section className="about-grid">
         <div className="about-text">
+          <PortraitBadge />
           <BioCard entries={BIO_ENTRIES} />
 
           <div className="about-blocks">

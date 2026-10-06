@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
 
@@ -23,5 +23,18 @@ describe('App routing', () => {
       </MemoryRouter>
     );
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
+  });
+
+  it('the topbar "Back" button returns to the menu from an interior page', () => {
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/who i am, what i work with/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /back/i }));
+
+    expect(screen.getByRole('navigation', { name: /main sections/i })).toBeInTheDocument();
   });
 });

@@ -5,13 +5,19 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  *
  * Exposes:
  *   playHover()   soft, short "blip" for moving between menu items
- *   playConfirm() sharper two-note "confirm" for select / navigate
- *   muted, setMuted, toggleMuted: mute state, respected by both play fns
+ *   playConfirm() sharper two-note rising tone for select / activate
+ *   playBack()    a short falling tone, distinct from confirm, for back/close
+ *   muted, setMuted, toggleMuted: mute state, respected by all three
+ *
+ * Off by default for first-time visitors; once a visitor has touched the
+ * mute toggle, their choice is remembered and always respected.
  */
 
 const STORAGE_KEY = 'persona-portfolio:sfx-muted';
+const MIN_REPEAT_GAP = 0.045; // seconds — guards against the same cue overlapping itself
 
 let sharedCtx = null;
+const lastPlayedAt = { hover: -Infinity, confirm: -Infinity, back: -Infinity };
 
 function getCtx() {
   if (typeof window === 'undefined') return null;
@@ -23,9 +29,10 @@ function getCtx() {
 
 function readStoredMuted() {
   try {
-    return window.localStorage.getItem(STORAGE_KEY) === '1';
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored === null ? true : stored === '1';
   } catch {
-    return false;
+    return true;
   }
 }
 
@@ -65,27 +72,38 @@ export default function useSfx() {
     }
   }, [muted]);
 
-  const play = useCallback((voices) => {
+  const play = useCallback((kind, voices) => {
     if (mutedRef.current) return;
     const ctx = getCtx();
     if (!ctx) return;
     // Browsers start the context suspended until a user gesture.
     if (ctx.state === 'suspended') ctx.resume();
+    // Skip if the same cue just fired — stops rapid repeats (e.g. fast
+    // hover across several menu items) from piling up into a mush of tone.
+    if (ctx.currentTime - lastPlayedAt[kind] < MIN_REPEAT_GAP) return;
+    lastPlayedAt[kind] = ctx.currentTime;
     voices.forEach((v) => blip(ctx, v));
   }, []);
 
   const playHover = useCallback(() => {
-    play([{ type: 'sine', from: 660, to: 900, duration: 0.06, peak: 0.035 }]);
+    play('hover', [{ type: 'sine', from: 660, to: 900, duration: 0.06, peak: 0.035 }]);
   }, [play]);
 
   const playConfirm = useCallback(() => {
-    play([
+    play('confirm', [
       { type: 'triangle', from: 520, to: 660, duration: 0.09, peak: 0.06 },
       { type: 'square', from: 780, to: 1180, duration: 0.14, peak: 0.03, delay: 0.05 },
     ]);
   }, [play]);
 
+  const playBack = useCallback(() => {
+    play('back', [
+      { type: 'triangle', from: 680, to: 480, duration: 0.09, peak: 0.05 },
+      { type: 'sine', from: 420, to: 280, duration: 0.1, peak: 0.03, delay: 0.04 },
+    ]);
+  }, [play]);
+
   const toggleMuted = useCallback(() => setMuted((m) => !m), []);
 
-  return { playHover, playConfirm, muted, setMuted, toggleMuted };
+  return { playHover, playConfirm, playBack, muted, setMuted, toggleMuted };
 }

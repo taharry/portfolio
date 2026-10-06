@@ -17,7 +17,7 @@ function seedFromPath(path) {
 export default function Layout({ crumb, children }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { playHover, playConfirm, muted, toggleMuted } = useSfx();
+  const { playHover, playConfirm, playBack, muted, toggleMuted } = useSfx();
 
   // click sfx is handled by the delegated listener below
   const goMenu = () => navigate('/');
@@ -28,16 +28,17 @@ export default function Layout({ crumb, children }) {
       // dialog (CallingCard, the Easter egg flourish) close on Escape
       // instead of also navigating away underneath it.
       if (e.key === 'Escape' && !isEditableTarget(e.target) && !isDialogOpen()) {
-        playConfirm();
+        playBack();
         navigate('/');
       }
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [navigate, playConfirm]);
+  }, [navigate, playBack]);
 
-  // Site-wide UI sfx: soft blip when the pointer enters a link/button,
-  // sharper confirm when one is clicked.
+  // Site-wide UI sfx: soft blip when the pointer enters a link/button, a
+  // falling tone for anything marked as a "back" action, a rising confirm
+  // tone for every other activation.
   useEffect(() => {
     let last = null;
     function onOver(e) {
@@ -50,7 +51,10 @@ export default function Layout({ crumb, children }) {
       }
     }
     function onClick(e) {
-      if (e.target.closest?.('a, button')) playConfirm();
+      const el = e.target.closest?.('a, button');
+      if (!el) return;
+      if (el.dataset.sfx === 'back') playBack();
+      else playConfirm();
     }
     document.addEventListener('mouseover', onOver);
     document.addEventListener('click', onClick);
@@ -58,7 +62,7 @@ export default function Layout({ crumb, children }) {
       document.removeEventListener('mouseover', onOver);
       document.removeEventListener('click', onClick);
     };
-  }, [playHover, playConfirm]);
+  }, [playHover, playConfirm, playBack]);
 
   return (
     <>
@@ -67,9 +71,9 @@ export default function Layout({ crumb, children }) {
       </div>
 
       <div className="topbar">
-        <button className="topbar-back" onClick={goMenu}>
+        <button className="topbar-back" onClick={goMenu} data-sfx="back">
           <span className="bar" aria-hidden="true"></span>
-          Menu
+          Back
         </button>
         <span className="topbar-crumb">MENU / <span>{crumb}</span></span>
       </div>

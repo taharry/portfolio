@@ -1,11 +1,11 @@
 import Layout from '../components/Layout';
 import CutoutTitle from '../components/CutoutTitle';
 import SplatterBackground from '../components/SplatterBackground';
-import JitterText from '../components/JitterText';
 
 const TIMELINE = [
   {
     year: '2026 to Expected May 2028',
+    abbr: 'M.S.',
     title: 'Master of Science in Computer Science',
     school: 'Georgia State University, Atlanta, GA',
     desc: 'Graduate coursework in robotics, advanced machine learning, and the fundamentals of data science, alongside work as a Graduate Administrative Assistant in Data Management.',
@@ -13,6 +13,7 @@ const TIMELINE = [
   },
   {
     year: '2022 to May 2026',
+    abbr: 'B.S.',
     title: 'Bachelor of Science in Computer Science',
     school: 'Georgia State University, Atlanta, GA',
     desc: 'Undergraduate CS with a strong systems and web-development core, plus internships in software engineering, AI agent development, and data analytics.',
@@ -44,26 +45,22 @@ export default function Education() {
       </header>
 
       <section>
-        <div className="timeline">
+        <div className="record-timeline">
           {TIMELINE.map((t) => (
-            <div className="edu-item" key={t.title}>
-              <span className="edu-marker" aria-hidden="true"></span>
-              <article className="edu-card">
-                <span className="case-burst" aria-hidden="true"></span>
-                <div className="edu-card-head">
-                  <span className="edu-year">{t.year}</span>
-                  <h2 className="edu-title"><JitterText text={t.title} amp={0.8} /></h2>
-                  <div className="edu-school">{t.school}</div>
-                </div>
-                <div className="edu-card-body">
-                  <span className="case-rule" aria-hidden="true"></span>
-                  <p className="edu-desc">{t.desc}</p>
-                  <ul className="case-tags">
-                    {t.courses.map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="record-item" key={t.title}>
+              <span className="record-stamp" aria-hidden="true">{t.abbr}</span>
+              <article className="record-card">
+                <span className="record-tape" aria-hidden="true"></span>
+                <span className="record-year">{t.year}</span>
+                <h2 className="record-title">{t.title}</h2>
+                <div className="record-school">{t.school}</div>
+                <span className="record-rule" aria-hidden="true"></span>
+                <p className="record-desc">{t.desc}</p>
+                <ul className="record-tags">
+                  {t.courses.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
               </article>
             </div>
           ))}

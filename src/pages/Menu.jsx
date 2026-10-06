@@ -64,6 +64,7 @@ export default function Menu() {
                   onFocus={onHover}
                   onClick={playConfirm}
                 >
+                  <span className="menu-link-accent" aria-hidden="true"></span>
                   <span className="menu-index">{item.index}</span>
                   <span className="menu-label display"><JitterText text={item.label} /></span>
                   <span className="menu-external-tag">&#8599; external</span>
@@ -78,6 +79,7 @@ export default function Menu() {
                   onClick={playConfirm}
                   aria-label={`${item.label}${item.desc ? `, ${item.desc}` : ''}`}
                 >
+                  <span className="menu-link-accent" aria-hidden="true"></span>
                   <span className="menu-index">{item.index}</span>
                   <span className="menu-label display"><JitterText text={item.label} /></span>
                   <span className="menu-desc">{item.desc}</span>

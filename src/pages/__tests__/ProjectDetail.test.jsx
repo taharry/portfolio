@@ -22,7 +22,8 @@ describe('ProjectDetail', () => {
     mujam.stack.forEach((tech) => {
       expect(screen.getByText(tech)).toBeInTheDocument();
     });
-    expect(screen.getByRole('link', { name: /view on github/i })).toHaveAttribute('href', mujam.href);
+    expect(screen.getByRole('link', { name: /source code/i })).toHaveAttribute('href', mujam.href);
+    expect(screen.getByRole('link', { name: /live demo/i })).toHaveAttribute('href', mujam.demo);
   });
 
   it('shows a friendly not-found state for an unknown slug instead of crashing', () => {
@@ -30,6 +31,6 @@ describe('ProjectDetail', () => {
     // CutoutTitle renders each word as its own span with no text-node space
     // between them, so the DOM text content is concatenated.
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/casenotfound/i);
-    expect(screen.getByRole('link', { name: /back to projects/i })).toHaveAttribute('href', '/projects');
+    expect(screen.getByRole('link', { name: /back/i })).toHaveAttribute('href', '/projects');
   });
 });

@@ -48,6 +48,7 @@ export const PROJECTS = [
       'Beginner-to-intermediate musicians who want to play real songs on guitar, ukulele, piano, and similar instruments, paced by a metronome instead of parsing notation.',
     stack: ['React 19', 'TypeScript', 'Vite', 'Web Audio API', 'React Router', 'Vitest'],
     href: 'https://github.com/taharry/MuJam',
+    demo: 'https://mujam-ten.vercel.app',
   },
 ];
 

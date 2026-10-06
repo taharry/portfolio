@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SITE } from '../data/site';
 import CutoutTitle from './CutoutTitle';
 import { dialogOpened, dialogClosed } from '../utils/dialogStack';
+import useSfx from '../hooks/useSfx';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
 const EGG_KEY = 'persona-portfolio:easter-egg';
@@ -27,8 +28,12 @@ export default function CallingCard() {
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const lastFocused = useRef(null);
+  const { playHover, playConfirm, playBack } = useSfx();
 
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    playBack();
+    setOpen(false);
+  }, [playBack]);
 
   useEffect(() => {
     const onUnlock = () => setUnlocked(true);
@@ -76,7 +81,12 @@ export default function CallingCard() {
         type="button"
         ref={triggerRef}
         className="card-tab"
-        onClick={() => setOpen((v) => !v)}
+        onMouseEnter={playHover}
+        onFocus={playHover}
+        onClick={() => {
+          playConfirm();
+          setOpen((v) => !v);
+        }}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="calling-card-dialog"
@@ -95,7 +105,13 @@ export default function CallingCard() {
             ref={dialogRef}
             onClick={(e) => e.stopPropagation()}
           >
-            <button type="button" className="calling-card-close" onClick={close} aria-label="Close calling card">
+            <button
+              type="button"
+              className="calling-card-close"
+              onClick={close}
+              data-sfx="back"
+              aria-label="Close calling card"
+            >
               &times;
             </button>
 
@@ -115,7 +131,16 @@ export default function CallingCard() {
               </p>
 
               <div className="calling-card-actions">
-                <Link className="cut-btn case-btn--sm" to="/contact" onClick={close}>
+                <Link
+                  className="cut-btn case-btn--sm"
+                  to="/contact"
+                  onMouseEnter={playHover}
+                  onFocus={playHover}
+                  onClick={() => {
+                    playConfirm();
+                    setOpen(false);
+                  }}
+                >
                   Contact &rarr;
                 </Link>
               </div>

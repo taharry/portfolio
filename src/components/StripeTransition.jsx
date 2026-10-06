@@ -26,8 +26,8 @@ export default function StripeTransition() {
             animate={{ scaleX: 0 }}
             exit={{ scaleX: 1 }}
             transition={{
-              duration: 0.26,
-              delay: i * 0.025,
+              duration: 0.24,
+              delay: i * 0.02,
               ease: [0.65, 0, 0.35, 1],
             }}
           />
