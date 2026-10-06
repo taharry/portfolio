@@ -1,8 +1,8 @@
-export default function CutoutTitle({ text, className = '' }) {
+export default function CutoutTitle({ text, className = '', as: Tag = 'h1', id }) {
   const words = text.split(' ');
 
   return (
-    <h1 className={`cutout-title display ${className}`}>
+    <Tag id={id} className={`cutout-title display ${className}`}>
       {words.map((word, wi) => (
         <span className="cutout-word" key={wi}>
           {word.split('').map((ch, i) => {
@@ -21,6 +21,6 @@ export default function CutoutTitle({ text, className = '' }) {
           })}
         </span>
       ))}
-    </h1>
+    </Tag>
   );
 }

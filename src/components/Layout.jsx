@@ -2,7 +2,10 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import MuteToggle from './MuteToggle';
 import SplatterBackground from './SplatterBackground';
+import CallingCard from './CallingCard';
 import useSfx from '../hooks/useSfx';
+import { isEditableTarget } from '../utils/dom';
+import { isDialogOpen } from '../utils/dialogStack';
 
 // Stable-ish seed per route so each page's splatter layout differs but is consistent.
 function seedFromPath(path) {
@@ -21,7 +24,10 @@ export default function Layout({ crumb, children }) {
 
   useEffect(() => {
     function onKeyDown(e) {
-      if (e.key === 'Escape') {
+      // Never hijack Escape while the visitor is typing, and let an open
+      // dialog (CallingCard, the Easter egg flourish) close on Escape
+      // instead of also navigating away underneath it.
+      if (e.key === 'Escape' && !isEditableTarget(e.target) && !isDialogOpen()) {
         playConfirm();
         navigate('/');
       }
@@ -68,7 +74,7 @@ export default function Layout({ crumb, children }) {
         <span className="topbar-crumb">MENU / <span>{crumb}</span></span>
       </div>
 
-      {children}
+      <main id="main-content">{children}</main>
 
       <footer className="site-footer">
         {location.pathname !== '/contact' && (
@@ -77,6 +83,7 @@ export default function Layout({ crumb, children }) {
         <span>© 2026 Tazrian Ahsan</span>
       </footer>
 
+      <CallingCard />
       <MuteToggle muted={muted} onToggle={toggleMuted} />
     </>
   );

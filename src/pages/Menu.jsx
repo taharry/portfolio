@@ -1,86 +1,67 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import MuteToggle from '../components/MuteToggle';
 import SplatterBackground from '../components/SplatterBackground';
 import JitterText from '../components/JitterText';
+import CallingCard from '../components/CallingCard';
 import useSfx from '../hooks/useSfx';
+import { SITE } from '../data/site';
 
 const ITEMS = [
   { index: '01', label: 'About Me', desc: 'Background & skills', path: '/about', external: false },
   { index: '02', label: 'Projects', desc: 'Selected work', path: '/projects', external: false },
-  { index: '03', label: 'Education', desc: 'Degrees & coursework', path: '/education', external: false },
-  { index: '04', label: 'Contact', desc: 'Get in touch', path: '/contact', external: false },
-  { index: '05', label: 'GitHub', desc: null, path: 'https://github.com/taharry', external: true },
-  { index: '06', label: 'LinkedIn', desc: null, path: 'https://www.linkedin.com/in/tazrian-ahsan-7a3315283', external: true },
+  { index: '03', label: 'Experience', desc: 'Internships & roles', path: '/experience', external: false },
+  { index: '04', label: 'Education', desc: 'Degrees & coursework', path: '/education', external: false },
+  { index: '05', label: 'Contact', desc: 'Get in touch', path: '/contact', external: false },
+  { index: '06', label: 'GitHub', desc: null, path: SITE.github, external: true },
+  { index: '07', label: 'LinkedIn', desc: null, path: SITE.linkedin, external: true },
 ];
 
 export default function Menu() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeRef = useRef(0);
-  const navigate = useNavigate();
   const { playHover, playConfirm, muted, toggleMuted } = useSfx();
+  const itemRefs = useRef([]);
 
-  const activate = useCallback((item) => {
-    playConfirm();
-    if (item.external) {
-      window.open(item.path, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(item.path);
-    }
-  }, [navigate, playConfirm]);
+  const onHover = useCallback(() => playHover(), [playHover]);
 
-  const focusIndex = useCallback((i) => {
-    if (activeRef.current === i) return;
-    activeRef.current = i;
-    setActiveIndex(i);
-    playHover();
-  }, [playHover]);
-
-  useEffect(() => {
-    function onKeyDown(e) {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        focusIndex((activeIndex + 1) % ITEMS.length);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        focusIndex((activeIndex - 1 + ITEMS.length) % ITEMS.length);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        activate(ITEMS[activeIndex]);
-      }
-    }
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [activeIndex, activate, focusIndex]);
+  // Arrow-key roving focus, scoped to this list only — Tab/Shift+Tab still
+  // work natively, and nothing here ever runs while a form field has focus
+  // (there are none on this page, and the handler is scoped to the nav).
+  const onKeyDown = useCallback((e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const items = itemRefs.current.filter(Boolean);
+    const from = items.indexOf(document.activeElement);
+    if (from === -1) return;
+    e.preventDefault();
+    const next = e.key === 'ArrowDown' ? (from + 1) % items.length : (from - 1 + items.length) % items.length;
+    items[next].focus();
+  }, []);
 
   return (
-    <div className="menu-page halftone">
+    <main className="menu-page halftone" id="main-content">
       <SplatterBackground className="splatter-bg--menu" seed={42} />
       <div className="menu-header">
         <div className="menu-eyebrow">// Select a section</div>
         <div className="menu-name-wrap">
           <span className="menu-slash-bar" aria-hidden="true"></span>
-          <h1 className="menu-name display">Tazrian Ahsan</h1>
+          <h1 className="menu-name display">{SITE.name}</h1>
         </div>
-        <p className="menu-role">Full-Stack Developer &middot; AI &amp; Data Engineering</p>
+        <p className="menu-role">{SITE.role}</p>
       </div>
 
       <nav aria-label="Main sections">
-        <ul className="menu-list">
+        <ul className="menu-list" onKeyDown={onKeyDown}>
           {ITEMS.map((item, i) => (
-            <li
-              key={item.label}
-              className={`menu-item${i === activeIndex ? ' is-active' : ''}`}
-            >
+            <li key={item.label} className="menu-item">
               {item.external ? (
                 <a
-                  className={`menu-link${i === activeIndex ? ' is-active' : ''}`}
+                  ref={(el) => (itemRefs.current[i] = el)}
+                  className="menu-link"
                   href={item.path}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${item.label} (opens in a new tab)`}
-                  onMouseEnter={() => focusIndex(i)}
-                  onFocus={() => focusIndex(i)}
+                  onMouseEnter={onHover}
+                  onFocus={onHover}
                   onClick={playConfirm}
                 >
                   <span className="menu-index">{item.index}</span>
@@ -88,25 +69,28 @@ export default function Menu() {
                   <span className="menu-external-tag">&#8599; external</span>
                 </a>
               ) : (
-                <button
-                  className={`menu-link${i === activeIndex ? ' is-active' : ''}`}
-                  onClick={() => activate(item)}
-                  onMouseEnter={() => focusIndex(i)}
-                  onFocus={() => focusIndex(i)}
+                <Link
+                  ref={(el) => (itemRefs.current[i] = el)}
+                  className="menu-link"
+                  to={item.path}
+                  onMouseEnter={onHover}
+                  onFocus={onHover}
+                  onClick={playConfirm}
                   aria-label={`${item.label}${item.desc ? `, ${item.desc}` : ''}`}
                 >
                   <span className="menu-index">{item.index}</span>
                   <span className="menu-label display"><JitterText text={item.label} /></span>
                   <span className="menu-desc">{item.desc}</span>
-                </button>
+                </Link>
               )}
             </li>
           ))}
         </ul>
       </nav>
 
-      <p className="menu-footer">© 2026 Tazrian Ahsan</p>
+      <p className="menu-footer">© 2026 {SITE.name}</p>
+      <CallingCard />
       <MuteToggle muted={muted} onToggle={toggleMuted} />
-    </div>
+    </main>
   );
 }

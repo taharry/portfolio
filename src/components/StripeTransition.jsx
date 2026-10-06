@@ -1,10 +1,14 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
-const STRIPE_COUNT = 7;
+const STRIPE_COUNT = 5;
 
 export default function StripeTransition() {
   const location = useLocation();
+  const reduceMotion = useReducedMotion();
+
+  // Reduced motion: no decorative wipe, route changes are instant.
+  if (reduceMotion) return null;
 
   return (
     <AnimatePresence>
@@ -22,8 +26,8 @@ export default function StripeTransition() {
             animate={{ scaleX: 0 }}
             exit={{ scaleX: 1 }}
             transition={{
-              duration: 0.35,
-              delay: i * 0.045,
+              duration: 0.26,
+              delay: i * 0.025,
               ease: [0.65, 0, 0.35, 1],
             }}
           />
