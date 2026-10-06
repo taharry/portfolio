@@ -929,7 +929,13 @@ footer.site-footer {
   gap: 34px;
   margin: 6px 0 100px;
 }
-@media (max-width: 900px) { .featured-grid { grid-template-columns: 1fr; gap: 42px; } }
+/* an odd card out (e.g. a 3rd featured project) spans the row as a hero card
+   instead of leaving an empty slot beside it */
+.featured-grid > *:last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .featured-grid { grid-template-columns: 1fr; gap: 42px; }
+  .featured-grid > *:last-child:nth-child(odd) { grid-column: auto; }
+}
 
 .case-card {
   position: relative;

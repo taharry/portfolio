@@ -6,21 +6,29 @@ const FEATURED = [
   {
     badge: 'FULL-STACK / AI',
     title: 'LingoQuest: AI Language Learning Platform',
-    desc: 'Scalable full-stack platform (React, Spring Boot, FastAPI, MySQL) with JWT auth and REST APIs. LLM, NLP, and speech services power conversational tutoring and pronunciation analysis, with adaptive backend logic that tunes difficulty and tracks learner performance.',
+    desc: "An AI language-learning platform with a conversational tutor that listens to your pronunciation and adapts each lesson to how you're doing, tracking your progress as you go.",
     status: 'React · Spring Boot · FastAPI · MySQL',
     href: 'https://github.com/taharry',
   },
   {
-    badge: 'AI CHATBOT',
-    title: 'WellCo: AI Wellness Chatbot',
-    desc: 'AI-powered web app (React, Firebase, Gemini API, NLP) that generates personalized wellness recommendations from user input. Firebase Auth and real-time sync handle secure sessions; a sentiment-analysis workflow reaches ~75% mood-classification accuracy.',
-    status: 'React · Firebase · Gemini API · NLP',
-    href: 'https://github.com/taharry/WellCo',
+    badge: 'MULTI-AGENT AI',
+    title: 'Adventra: Multi-Agent Travel Planner',
+    desc: 'A travel planner that builds your itinerary for you: a team of AI agents researches destinations, hotels, and activities, then puts together a day-by-day plan you can save, tweak, and share.',
+    status: 'React · Flask · Node.js · MongoDB · LangGraph',
+    href: 'https://github.com/taharry',
+  },
+  {
+    badge: 'MUSIC / WEB AUDIO',
+    title: 'MuJam',
+    desc: 'A web app for learning to play your favorite songs on any instrument, no sheet music required. Pick a song and follow synced chord charts and fingering diagrams, paced by an adjustable-speed metronome with loop mode and a strum-pattern guide.',
+    status: 'React 19 · TypeScript · Vite · Web Audio API · React Router',
+    href: 'https://github.com/taharry/MuJam',
   },
 ];
 
 const REPOS = [
   { title: 'portfolio', lang: 'Javascript', desc: 'This site: a Persona 5-inspired developer portfolio built with React, React Router, and Framer Motion.', stars: 0, href: 'https://github.com/taharry/portfolio' },
+  { title: 'WellCo', lang: 'REACT', desc: 'AI wellness chatbot: React + Firebase + Gemini API with sentiment analysis and real-time sync.', stars: 0, href: 'https://github.com/taharry/WellCo' },
   { title: 'BeastMode', lang: 'DART', desc: 'Flutter/Dart mobile app project.', stars: 0, href: 'https://github.com/taharry/BeastMode' },
 ];
 
