@@ -55,8 +55,9 @@ export default function Contact() {
 
   return (
     <Layout crumb="CONTACT">
-      <header className="page-header page-header--split page-header--compact halftone">
+      <header className="page-header page-header--split page-header--compact page-header--calling halftone">
         <SplatterBackground className="splatter-bg--header" seed={33} variant="split" />
+        <span className="spiral-accent" aria-hidden="true"></span>
         <div className="page-eyebrow">// 05</div>
         <div className="page-title-wrap">
           <CutoutTitle text="Contact" />

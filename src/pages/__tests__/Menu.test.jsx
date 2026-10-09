@@ -52,4 +52,26 @@ describe('Menu', () => {
     // (native focus advance) is never cancelled
     expect(notCancelled).toBe(true);
   });
+
+  it('shows About Me selected on initial render without stealing focus', () => {
+    const nav = renderMenuNav();
+    const links = nav.getAllByRole('link');
+    expect(links[0]).toHaveClass('is-selected');
+    expect(links.filter((a) => a.className.includes('is-selected'))).toHaveLength(1);
+    // nothing has been focused yet — the initial selection is purely visual
+    expect(document.activeElement).not.toBe(links[0]);
+  });
+
+  it('keeps exactly one item selected as hover and focus move around', () => {
+    const nav = renderMenuNav();
+    const links = nav.getAllByRole('link');
+
+    fireEvent.mouseEnter(links[2]);
+    expect(links[2]).toHaveClass('is-selected');
+    expect(links.filter((a) => a.className.includes('is-selected'))).toHaveLength(1);
+
+    fireEvent.focus(links[4]);
+    expect(links[4]).toHaveClass('is-selected');
+    expect(links.filter((a) => a.className.includes('is-selected'))).toHaveLength(1);
+  });
 });

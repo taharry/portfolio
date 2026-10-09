@@ -2,6 +2,14 @@
 // Projects listing (src/pages/Projects.jsx) and the per-project dossier
 // route (src/pages/ProjectDetail.jsx). Add a project here and it appears in
 // both places automatically.
+//
+// Screenshots: no real project screenshots exist in this repo yet, so
+// `screenshot` is left unset below and ProjectDetail shows an honest
+// placeholder instead. To add one: drop an image at
+// `public/screenshots/<slug>.png` (roughly 1280x800, landscape, <500KB) and
+// set `screenshot: '/screenshots/<slug>.png'` on that project — the
+// dossier-evidence framing, lightbox, and mobile display all just work
+// once the field is set, no other changes needed.
 
 export const PROJECTS = [
   {
@@ -10,6 +18,7 @@ export const PROJECTS = [
     badge: 'FULL-STACK / AI',
     category: 'Full-Stack · AI / NLP',
     title: 'LingoQuest: AI Language Learning Platform',
+    screenshot: null,
     summary:
       "An AI language-learning platform with a conversational tutor that listens to your pronunciation and adapts each lesson to how you're doing, tracking your progress as you go.",
     problem:
@@ -25,6 +34,7 @@ export const PROJECTS = [
     badge: 'MULTI-AGENT AI',
     category: 'Full-Stack · Multi-Agent AI',
     title: 'Adventra: Multi-Agent Travel Planner',
+    screenshot: null,
     summary:
       'A travel planner that builds your itinerary for you: a team of AI agents researches destinations, hotels, and activities, then puts together a day-by-day plan you can save, tweak, and share.',
     problem:
@@ -40,6 +50,7 @@ export const PROJECTS = [
     badge: 'MUSIC / WEB AUDIO',
     category: 'Web App · Music / Web Audio',
     title: 'MuJam',
+    screenshot: null,
     summary:
       'A web app for learning to play your favorite songs on any instrument, no sheet music required. Pick a song and follow synced chord charts and fingering diagrams, paced by an adjustable-speed metronome with loop mode and a strum-pattern guide.',
     problem:

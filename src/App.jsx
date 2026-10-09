@@ -7,7 +7,6 @@ import Experience from './pages/Experience';
 import Education from './pages/Education';
 import Contact from './pages/Contact';
 import StripeTransition from './components/StripeTransition';
-import EasterEgg from './components/EasterEgg';
 import useRouteFocus from './hooks/useRouteFocus';
 
 export default function App() {
@@ -27,7 +26,6 @@ export default function App() {
         <Route path="/education" element={<Education />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-      <EasterEgg />
     </>
   );
 }

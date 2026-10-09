@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import CutoutTitle from '../components/CutoutTitle';
 import SplatterBackground from '../components/SplatterBackground';
 import ProjectEmblem from '../components/ProjectEmblem';
+import ProjectPreview from '../components/ProjectPreview';
 import { getProject, PROJECTS } from '../data/projects';
 
 export default function ProjectDetail() {
@@ -29,10 +30,11 @@ export default function ProjectDetail() {
 
   const seed = (project.slug.length * 37) % 997;
   const others = PROJECTS.filter((p) => p.slug !== project.slug);
+  const caseNumber = PROJECTS.findIndex((p) => p.slug === project.slug) + 1;
 
   return (
     <Layout crumb="PROJECTS">
-      <header className={`page-header page-header--split page-header--compact halftone motif-${project.motif}`}>
+      <header className={`page-header page-header--split page-header--compact page-header--case halftone motif-${project.motif}`}>
         <SplatterBackground className="splatter-bg--header" seed={seed} variant="split" />
         <span className="case-burst" aria-hidden="true"></span>
         <ProjectEmblem motif={project.motif} className="project-emblem--hero" />
@@ -41,6 +43,10 @@ export default function ProjectDetail() {
           <CutoutTitle text={project.title.split(':')[0]} />
         </div>
         <p className="page-sub">{project.category}</p>
+        <div className="case-stamps" aria-hidden="true">
+          <span className="case-stamp">Case No. {String(caseNumber).padStart(2, '0')}</span>
+          <span className="case-stamp">{project.stack.length} Technologies</span>
+        </div>
       </header>
 
       <section className="projects-section project-detail">
@@ -51,11 +57,12 @@ export default function ProjectDetail() {
         <p className="project-detail-intro">{project.summary}</p>
 
         <div className="project-doc">
-          <div className="project-doc-preview">
-            <span className="project-doc-preview-label">Preview</span>
-            <ProjectEmblem motif={project.motif} className="project-doc-preview-emblem" />
-            <p className="project-doc-preview-note">Screenshot coming soon. This file is still in the field.</p>
-          </div>
+          <ProjectPreview
+            project={{
+              ...project,
+              emblemNode: <ProjectEmblem motif={project.motif} className="project-doc-preview-emblem" />,
+            }}
+          />
 
           <div className="project-doc-annotations">
             <article className="dossier-card">
@@ -76,20 +83,6 @@ export default function ProjectDetail() {
               <li key={t}>{t}</li>
             ))}
           </ul>
-        </div>
-
-        <div className="action-strip">
-          <a className="action-strip-item" href={project.href}>
-            <span className="action-strip-arrow" aria-hidden="true">&#8594;</span> Source Code
-          </a>
-          {project.demo && (
-            <a className="action-strip-item" href={project.demo}>
-              <span className="action-strip-arrow" aria-hidden="true">&#8594;</span> Live Demo
-            </a>
-          )}
-          <Link className="action-strip-item action-strip-item--ghost" to="/projects" data-sfx="back">
-            <span className="action-strip-arrow" aria-hidden="true">&#8592;</span> Back
-          </Link>
         </div>
 
         {others.length > 0 && (

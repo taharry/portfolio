@@ -35,8 +35,10 @@ const TIMELINE = [
 export default function Education() {
   return (
     <Layout crumb="EDUCATION">
-      <header className="page-header page-header--split page-header--compact halftone">
-        <SplatterBackground className="splatter-bg--header" seed={21} variant="split" />
+      <header className="page-header page-header--academic page-header--compact">
+        <SplatterBackground className="splatter-bg--header" seed={44} />
+        <span className="pin-mark academic-header-pin" aria-hidden="true"></span>
+        <span className="reg-mark reg-mark--tr" aria-hidden="true"></span>
         <div className="page-eyebrow">// 04</div>
         <div className="page-title-wrap">
           <CutoutTitle text="Education" />
@@ -50,7 +52,7 @@ export default function Education() {
             <div className="record-item" key={t.title}>
               <span className="record-stamp" aria-hidden="true">{t.abbr}</span>
               <article className="record-card">
-                <span className="record-tape" aria-hidden="true"></span>
+                <span className="record-pin" aria-hidden="true"></span>
                 <span className="record-year">{t.year}</span>
                 <h2 className="record-title">{t.title}</h2>
                 <div className="record-school">{t.school}</div>

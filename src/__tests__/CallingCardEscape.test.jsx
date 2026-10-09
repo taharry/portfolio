@@ -14,7 +14,10 @@ describe('Escape key priority', () => {
     // We're on the About page, not the menu.
     expect(screen.getByText(/who i am, what i work with/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /card/i }));
+    // typing "dev" anywhere outside a form field summons the hidden card
+    fireEvent.keyDown(window, { key: 'd' });
+    fireEvent.keyDown(window, { key: 'e' });
+    fireEvent.keyDown(window, { key: 'v' });
     expect(screen.getByRole('dialog')).toBeInTheDocument();
 
     fireEvent.keyDown(window, { key: 'Escape' });

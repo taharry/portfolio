@@ -70,7 +70,7 @@ a:focus-visible, button:focus-visible {
 
 /* ===== REUSABLE PAPER-GRAPHIC PRIMITIVES =====
    Shared layered-paper vocabulary used across cards, badges, and panels:
-   an offset black backing plate, a washi-tape accent, and printer
+   an offset black backing plate, a pushpin accent, and printer
    registration-mark corner ticks. Keep paragraph backgrounds calm — these
    are for small decorative areas, not big blocks of body text. */
 .paper-plate {
@@ -81,13 +81,34 @@ a:focus-visible, button:focus-visible {
   clip-path: polygon(2% 8%, 92% 0%, 100% 20%, 96% 94%, 12% 100%, 0% 76%);
 }
 
-.tape-strip {
+/* Shared pin accent: a flat red pushpin head with a black outline and a
+   hard offset shadow, in the same flat-shadow language used everywhere
+   else on the page, plus a small cream highlight for a bit of roundness. */
+.pin-mark,
+.record-pin,
+.project-shot-pin,
+.biocard-pin {
   position: absolute;
-  width: 100px;
-  height: 22px;
-  background: rgba(217, 35, 35, 0.2);
-  border: 1px solid rgba(217, 35, 35, 0.35);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 2px solid var(--black);
+  box-shadow: 2px 2px 0 var(--black);
   pointer-events: none;
+}
+.pin-mark::after,
+.record-pin::after,
+.project-shot-pin::after,
+.biocard-pin::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 237, 228, 0.65);
 }
 
 .reg-mark {
@@ -105,44 +126,6 @@ a:focus-visible, button:focus-visible {
 .reg-mark--tr { top: 10px; right: 10px; }
 .reg-mark--bl { bottom: 10px; left: 10px; }
 .reg-mark--br { bottom: 10px; right: 10px; }
-
-/* ===== PORTRAIT BADGE (About centerpiece) ===== */
-.portrait-badge {
-  position: relative;
-  isolation: isolate;
-  width: clamp(140px, 18vw, 196px);
-  height: clamp(140px, 18vw, 196px);
-  margin: 0 auto clamp(26px, 4vw, 38px);
-  transform: rotate(-2deg);
-}
-.portrait-badge-shape {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: var(--red);
-  border: 4px solid var(--black);
-  border-radius: 50%;
-  box-shadow: 7px 8px 0 var(--black);
-}
-.portrait-badge-initials {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(44px, 6.4vw, 62px);
-  line-height: 1;
-  color: var(--cream);
-  -webkit-text-stroke: 3px var(--black);
-  paint-order: stroke fill;
-  letter-spacing: 0.02em;
-}
-.portrait-badge-tape {
-  top: -10px;
-  left: 50%;
-  z-index: 2;
-  transform: translateX(-50%) rotate(-3deg);
-}
 
 /* ===== TOP NAV (interior pages) ===== */
 .topbar {
@@ -695,8 +678,9 @@ section { padding: 72px 6vw; position: relative; }
   left: 8px;
   top: 8px;
   bottom: 8px;
-  width: 3px;
-  background: repeating-linear-gradient(var(--wine) 0 9px, transparent 9px 16px);
+  width: 4px;
+  background: repeating-linear-gradient(var(--red) 0 9px, transparent 9px 16px);
+  opacity: 0.6;
 }
 
 .record-item { position: relative; padding-bottom: 52px; }
@@ -719,14 +703,16 @@ section { padding: 72px 6vw; position: relative; }
   font-size: 10px;
   letter-spacing: 0.02em;
   border: 3px solid var(--black);
-  box-shadow: 0 0 0 3px var(--wine);
+  box-shadow: 0 0 0 3px rgba(217, 35, 35, 0.4);
   transform: rotate(-8deg);
 }
 
 .record-card {
   position: relative;
   isolation: isolate;
-  background: var(--cream);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 25px, rgba(11, 11, 12, 0.055) 25px 26px),
+    var(--cream);
   color: var(--black);
   padding: 32px 32px 26px;
   transform: rotate(-0.6deg);
@@ -738,17 +724,13 @@ section { padding: 72px 6vw; position: relative; }
   transition: transform 0.2s cubic-bezier(.65, 0, .35, 1);
 }
 .record-item:nth-child(even) .record-card { transform: rotate(0.6deg); }
-.record-card:hover { transform: rotate(0deg) translateY(-3px); }
+.record-card:hover,
+.record-item:nth-child(even) .record-card:hover { transform: rotate(0deg) translateY(-3px); }
 
-.record-tape {
-  position: absolute;
+.record-pin {
   top: 8px;
   left: 50%;
-  width: 120px;
-  height: 24px;
-  background: rgba(217, 35, 35, 0.18);
-  border: 1px solid rgba(217, 35, 35, 0.3);
-  transform: translateX(-50%) rotate(-2deg);
+  transform: translateX(-50%);
 }
 
 .record-year {
@@ -819,10 +801,11 @@ section { padding: 72px 6vw; position: relative; }
 .record-tags li {
   font-size: 11px;
   font-weight: 700;
-  color: var(--black);
-  background: rgba(217, 35, 35, 0.1);
-  border: 1px solid rgba(217, 35, 35, 0.4);
-  padding: 4px 11px;
+  letter-spacing: 0.02em;
+  color: var(--cream);
+  background: var(--black);
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0 var(--red);
   transform: skewX(-9deg);
 }
 
@@ -993,13 +976,17 @@ footer.site-footer {
   outline: none;
   transition: transform 0.15s cubic-bezier(.34, 1.56, .64, 1);
 }
-.menu-link:hover,
-.menu-link:focus-visible,
-.menu-link:active {
+/* The "selected" look is driven entirely by this one class (set in JS from
+   a single activeIndex), not by live :hover/:focus-visible/:active — mixing
+   those in risked a one-frame window where the previously-selected item and
+   the newly-hovered item both looked selected as the mouse moved between
+   them. A thin native focus outline below is kept as an accessibility
+   backstop, separate from this centerpiece treatment. */
+.menu-link.is-selected {
   transform: translateY(-2px) rotate(-1deg);
   z-index: 4;
 }
-.menu-link:active { transform: translateY(0) rotate(0deg); }
+.menu-link:focus-visible { outline: 2px dashed var(--red-hot); outline-offset: 4px; }
 
 /* selected-state centerpiece: a black backing plate sits furthest back, an
    irregular cream shape with its own red offset shadow sits in front of it,
@@ -1028,12 +1015,8 @@ footer.site-footer {
   opacity: 0;
   transition: transform 0.18s cubic-bezier(.34, 1.56, .64, 1), opacity 0.12s ease;
 }
-.menu-link:hover::before,
-.menu-link:focus-visible::before,
-.menu-link:active::before { transform: scale(1) translate(7px, 8px); opacity: 1; }
-.menu-link:hover::after,
-.menu-link:focus-visible::after,
-.menu-link:active::after { transform: scale(1) rotate(-2deg); opacity: 1; }
+.menu-link.is-selected::before { transform: scale(1) translate(7px, 8px); opacity: 1; }
+.menu-link.is-selected::after { transform: scale(1) rotate(-2deg); opacity: 1; }
 
 /* original angular arrow accent, protrudes from the shape's left edge a
    touch after the backing pops in */
@@ -1053,9 +1036,7 @@ footer.site-footer {
   z-index: 1;
   transition: transform 0.16s cubic-bezier(.34, 1.56, .64, 1) 0.05s, opacity 0.12s ease 0.05s;
 }
-.menu-link:hover .menu-link-accent,
-.menu-link:focus-visible .menu-link-accent,
-.menu-link:active .menu-link-accent { transform: translateY(-50%) translateX(-18px) scale(1); opacity: 1; }
+.menu-link.is-selected .menu-link-accent { transform: translateY(-50%) translateX(-18px) scale(1); opacity: 1; }
 
 /* index + meta float outside the centred label so the words stay aligned */
 .menu-index {
@@ -1086,17 +1067,13 @@ footer.site-footer {
     -webkit-text-stroke-width 0.14s ease 0.03s, transform 0.16s cubic-bezier(.34, 1.56, .64, 1) 0.03s;
 }
 
-.menu-link:hover .menu-label,
-.menu-link:focus-visible .menu-label,
-.menu-link:active .menu-label {
+.menu-link.is-selected .menu-label {
   color: var(--black);
   -webkit-text-stroke-width: 0;
   text-shadow: 3px 3px 0 var(--red);
   transform: scale(1.08) rotate(-1.5deg);
 }
-.menu-link:hover .menu-index,
-.menu-link:focus-visible .menu-index,
-.menu-link:active .menu-index { color: var(--black); }
+.menu-link.is-selected .menu-index { color: var(--black); }
 
 .menu-desc {
   position: absolute;
@@ -1114,9 +1091,7 @@ footer.site-footer {
   transform: translateY(-50%) translateX(-8px);
   transition: opacity 0.14s ease, transform 0.14s ease, color 0.14s ease;
 }
-.menu-link:hover .menu-desc,
-.menu-link:focus-visible .menu-desc,
-.menu-link:active .menu-desc { opacity: 1; transform: translateY(-50%) translateX(0); color: var(--red-hot); }
+.menu-link.is-selected .menu-desc { opacity: 1; transform: translateY(-50%) translateX(0); color: var(--red-hot); }
 
 .menu-external-tag {
   position: absolute;
@@ -1134,9 +1109,7 @@ footer.site-footer {
   transform: translateY(-50%) rotate(2deg);
   transition: background 0.14s ease, color 0.14s ease;
 }
-.menu-link:hover .menu-external-tag,
-.menu-link:focus-visible .menu-external-tag,
-.menu-link:active .menu-external-tag { background: var(--red); color: var(--cream); }
+.menu-link.is-selected .menu-external-tag { background: var(--red); color: var(--cream); }
 
 .menu-footer { margin-top: clamp(28px, 5vh, 44px); font-size: 13px; color: var(--grey); text-align: center; }
 
@@ -1158,9 +1131,7 @@ footer.site-footer {
     -webkit-text-stroke-width: 2.25px;
     text-shadow: 3px 3px 0 var(--black);
   }
-  .menu-link:hover .menu-label,
-  .menu-link:focus-visible .menu-label,
-  .menu-link:active .menu-label {
+  .menu-link.is-selected .menu-label {
     -webkit-text-stroke-width: 0;
     text-shadow: 2px 2px 0 var(--red);
   }
@@ -1314,25 +1285,34 @@ footer.site-footer {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 36px 24px;
+  padding: 30px 20px;
   background: var(--red);
 }
+/* oversized ghost number, strictly a faint outline so it never competes
+   with the emblem sitting in front of it */
 .case-card-number {
   position: absolute;
   z-index: 0;
   font-family: 'Anton', sans-serif;
-  font-size: clamp(90px, 13vw, 170px);
+  font-size: clamp(110px, 16vw, 210px);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(11, 11, 12, 0.32);
+  -webkit-text-stroke: 2px rgba(11, 11, 12, 0.3);
   pointer-events: none;
   user-select: none;
 }
+/* the emblem is the focal point of the panel: big, with its own snap on
+   card hover/focus that never touches layout (pure transform) */
 .case-card-visual .project-emblem {
   position: relative;
   z-index: 1;
-  width: clamp(76px, 9vw, 112px);
-  height: clamp(76px, 9vw, 112px);
+  width: clamp(104px, 12.5vw, 156px);
+  height: clamp(104px, 12.5vw, 156px);
+  transition: transform 0.18s cubic-bezier(.34, 1.56, .64, 1);
+}
+.case-card:hover .case-card-visual .project-emblem,
+.case-card:focus-within .case-card-visual .project-emblem {
+  transform: scale(1.08) rotate(-3deg);
 }
 
 .case-card-info {
@@ -1432,13 +1412,6 @@ footer.site-footer {
 .case-btn:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--black); }
 .case-btn:focus-visible { outline: 3px solid var(--red-hot); outline-offset: 3px; }
 .case-btn--sm { padding: 8px 15px; font-size: 11px; }
-.case-btn--ghost {
-  background: transparent;
-  color: var(--cream);
-  border: 2px solid var(--wine);
-  box-shadow: none;
-}
-.case-btn--ghost:hover { background: var(--wine); color: var(--cream); box-shadow: none; transform: translate(-1px, -1px); }
 
 .case-card-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 4px; }
 
@@ -1452,8 +1425,8 @@ footer.site-footer {
 .project-emblem svg { width: 100%; height: 100%; display: block; }
 
 .project-emblem--hero {
-  width: clamp(64px, 7vw, 92px);
-  height: clamp(64px, 7vw, 92px);
+  width: clamp(78px, 8.5vw, 116px);
+  height: clamp(78px, 8.5vw, 116px);
 }
 
 /* ===== PROJECT DETAIL (case file dossier) ===== */
@@ -1521,6 +1494,89 @@ footer.site-footer {
 
 .project-doc-annotations { display: flex; flex-direction: column; gap: 20px; }
 .project-doc-annotations .dossier-card { flex: 1; }
+
+/* real screenshot, framed as layered dossier evidence; aspect-ratio +
+   explicit <img> dimensions reserve the space so nothing shifts on load */
+.project-shot {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 2px solid var(--wine);
+  background: var(--black);
+  cursor: pointer;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 94%, 94% 100%, 0 100%, 0 6%);
+  box-shadow: 7px 8px 0 var(--black);
+  transition: transform 0.18s cubic-bezier(.34, 1.56, .64, 1), border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.project-shot:hover,
+.project-shot:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--red);
+  box-shadow: 9px 10px 0 var(--black);
+}
+.project-shot:focus-visible { outline: 3px solid var(--red-hot); outline-offset: 3px; }
+.project-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.project-shot-tab {
+  position: absolute;
+  top: 10px;
+  left: -8px;
+  z-index: 2;
+  background: var(--red);
+  color: var(--cream);
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 14px 4px 18px;
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+.project-shot-pin {
+  top: -8px;
+  right: 24px;
+  z-index: 2;
+}
+.project-shot-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cream);
+  background: rgba(11, 11, 12, 0.72);
+  padding: 4px 10px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.project-shot:hover .project-shot-hint,
+.project-shot:focus-visible .project-shot-hint { opacity: 1; }
+
+.project-shot-lightbox {
+  position: relative;
+  max-width: min(92vw, 1100px);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+}
+.project-shot-lightbox img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 3px solid var(--cream);
+}
+.project-shot-lightbox .calling-card-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+}
+@media (max-width: 560px) {
+  .project-shot-lightbox .calling-card-close { top: -14px; right: 0; }
+}
 
 .dossier-card {
   position: relative;
@@ -1609,43 +1665,6 @@ footer.site-footer {
 }
 .project-detail-stack .dossier-card-title { margin-bottom: 0; }
 .project-detail-stack .case-tags { position: relative; z-index: 1; margin-top: 16px; margin-bottom: 0; }
-
-/* prominent action strip: a bold banded bar instead of loose inline buttons */
-.action-strip {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 56px;
-  border: 2px solid var(--wine);
-  box-shadow: 6px 7px 0 var(--black);
-}
-.action-strip-item {
-  flex: 1 1 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 17px 20px;
-  background: var(--red);
-  color: var(--cream);
-  font-family: 'Anton', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-right: 2px solid var(--wine);
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.action-strip-item:last-child { border-right: none; }
-.action-strip-item:hover { background: var(--red-hot); }
-.action-strip-item:focus-visible { outline: 3px solid var(--cream); outline-offset: -6px; }
-.action-strip-item--ghost { background: var(--black); color: var(--cream); }
-.action-strip-item--ghost:hover { background: var(--wine); }
-.action-strip-arrow { font-size: 15px; }
-
-@media (max-width: 560px) {
-  .action-strip { flex-direction: column; }
-  .action-strip-item { border-right: none; border-bottom: 2px solid var(--wine); }
-  .action-strip-item:last-child { border-bottom: none; }
-}
 
 .project-detail-next {
   border-top: 2px solid var(--wine);
@@ -1774,9 +1793,9 @@ footer.site-footer {
   .case-card-info { order: 2; }
   .case-card:hover { transform: translateY(-4px); }
 
-  .case-card-visual { padding: 26px 20px; }
-  .case-card-number { font-size: clamp(60px, 22vw, 96px); }
-  .case-card-visual .project-emblem { width: 64px; height: 64px; }
+  .case-card-visual { padding: 24px 20px; }
+  .case-card-number { font-size: clamp(70px, 24vw, 120px); }
+  .case-card-visual .project-emblem { width: 84px; height: 84px; }
   .case-card-info { padding: 22px 18px 24px; }
   .case-title {
     font-size: 19px;
@@ -1868,6 +1887,123 @@ footer.site-footer { position: relative; z-index: 1; }
   .page-header--split .project-emblem--hero { display: none; }
 }
 
+/* compact case-file header: ink-stamp metadata row under the summary line */
+.page-header--case { padding-bottom: 76px; }
+.case-stamps {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.case-stamp {
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--black);
+  border: 2px solid var(--black);
+  padding: 4px 11px;
+  transform: rotate(-3deg);
+  opacity: 0.8;
+}
+.case-stamps .case-stamp:nth-child(even) { transform: rotate(2deg); }
+
+/* ===== ACADEMIC-RECORD HEADER (Education): the site's usual black base,
+   with a red ledger-line texture standing in for the red/black split used
+   everywhere else, rather than a pale, off-theme parchment panel. The
+   default cream cutout-letter tiles already read fine here. */
+.page-header--academic {
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 27px, rgba(217, 35, 35, 0.14) 27px 28px),
+    radial-gradient(ellipse at 30% 15%, rgba(217, 35, 35, 0.3), transparent 60%),
+    var(--black);
+}
+.page-header--academic .page-eyebrow { color: var(--red); font-weight: 700; }
+
+.academic-header-pin {
+  top: 14px;
+  left: 10%;
+  z-index: 2;
+}
+@media (max-width: 560px) {
+  .academic-header-pin { display: none; }
+}
+
+/* ===== CALLING-CARD HEADER (Contact): a restrained concentric accent,
+   echoing the Calling Card dialog without repeating its full poster ===== */
+.page-header--calling {
+  overflow: hidden;
+}
+.page-header--calling .spiral-accent {
+  position: absolute;
+  z-index: 1;
+  right: clamp(-40px, 2vw, 10px);
+  top: 50%;
+  width: clamp(160px, 20vw, 260px);
+  height: clamp(160px, 20vw, 260px);
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle at center, var(--black) 0 10px, var(--red) 10px 20px);
+  opacity: 0.16;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .page-header--calling .spiral-accent { display: none; }
+}
+
+/* ===== DOSSIER-SELECTION HEADER (Projects listing): thin red speed-lines
+   radiating from one corner and fading out, instead of the single clean
+   diagonal split used by every other header or a flat colored panel —
+   dynamic motion rather than a static block, still black/red/cream. */
+.page-header--dossier {
+  background: var(--black);
+  overflow: hidden;
+}
+.page-header--dossier::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: repeating-linear-gradient(115deg, var(--red) 0 3px, transparent 3px 26px);
+  -webkit-mask-image: radial-gradient(circle at 92% 10%, black 0%, black 30%, transparent 68%);
+  mask-image: radial-gradient(circle at 92% 10%, black 0%, black 30%, transparent 68%);
+  opacity: 0.6;
+}
+.page-header--dossier .splatter-bg--header { z-index: 1; }
+.page-header--dossier .dossier-numbers {
+  position: absolute;
+  z-index: 1;
+  right: clamp(24px, 8vw, 90px);
+  top: 50%;
+  transform: translateY(-50%);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+  pointer-events: none;
+}
+.page-header--dossier .dossier-numbers li {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(28px, 3.8vw, 46px);
+  line-height: 0.92;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(242, 237, 228, 0.4);
+}
+@media (max-width: 760px) {
+  .page-header--dossier .dossier-numbers { display: none; }
+}
+
+/* ===== CHARACTER-PROFILE HEADER (About): paper accents instead of a
+   second emblem, so the portrait badge in the body stays the one clear
+   focal point ===== */
+.page-header--profile .profile-header-pin { top: 18px; right: 10%; z-index: 2; }
+@media (max-width: 560px) {
+  .page-header--profile .profile-header-pin { display: none; }
+}
+
 /* ===== TORN-PAPER BIO CARD ===== */
 .biocard {
   position: relative;
@@ -1883,15 +2019,10 @@ footer.site-footer { position: relative; z-index: 1; }
   );
 }
 
-.biocard-tape {
-  position: absolute;
+.biocard-pin {
   top: 10px;
   left: 50%;
-  width: 120px;
-  height: 26px;
-  background: rgba(217, 35, 35, 0.22);
-  border: 1px solid rgba(217, 35, 35, 0.35);
-  transform: translateX(-50%) rotate(-3deg);
+  transform: translateX(-50%);
 }
 
 .biocard-body { animation: bioSwap 0.28s ease; }
@@ -2233,33 +2364,110 @@ a.contact-info-value:hover { color: var(--red-hot); }
 }
 .skip-link:focus { top: 12px; }
 
-/* ===== CARD TAB + CALLING CARD DIALOG ===== */
-.card-tab {
+/* ===== CALLING CARD HINT + DIALOG =====
+   No visible trigger for the card itself — just a small "Hint" tab. Click
+   it to reveal a riddle note without covering the page; the card stays
+   reachable only by whoever solves it. */
+.hint-widget {
   position: fixed;
   left: 6vw;
   bottom: max(22px, env(safe-area-inset-bottom, 22px));
   z-index: 300;
+}
+
+.hint-tab {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 16px;
+  padding: 8px 15px 8px 11px;
   background: var(--red);
   color: var(--cream);
   border: none;
   font-family: 'Anton', sans-serif;
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
   box-shadow: 4px 4px 0 var(--black);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
-.card-tab:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); background: var(--red-hot); }
-.card-tab:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
-.card-tab[aria-expanded='true'] { background: var(--black); }
+.hint-tab:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); background: var(--red-hot); }
+.hint-tab:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
+.hint-tab[aria-expanded='true'] { background: var(--black); }
+
+.hint-tab-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--cream);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  transform: rotate(-8deg);
+}
+
+/* torn-note popover, anchored just above the tab — the same ragged paper
+   edge and halftone dot texture used by the biography card, so it reads
+   as a scrap of evidence rather than a plain white tooltip. */
+.hint-popover {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 16px);
+  z-index: 2;
+  width: min(252px, 72vw);
+  padding: 26px 20px 20px;
+  background:
+    radial-gradient(rgba(11, 11, 12, 0.05) 1px, transparent 1.6px) 0 0 / 9px 9px,
+    var(--cream);
+  color: var(--black);
+  transform: rotate(-1.4deg);
+  filter: drop-shadow(5px 6px 0 var(--black));
+  clip-path: polygon(
+    0% 6%, 7% 0%, 16% 5%, 26% 1%, 37% 6%, 48% 1%, 60% 5%, 72% 0%, 84% 5%, 94% 1%, 100% 6%,
+    100% 92%, 92% 100%, 81% 95%, 70% 100%, 58% 95%, 47% 100%, 35% 95%, 24% 100%, 13% 95%, 4% 100%, 0% 93%
+  );
+  animation: hintPop 0.18s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes hintPop {
+  0% { opacity: 0; transform: scale(0.88) rotate(-4deg) translateY(6px); }
+  100% { opacity: 1; transform: scale(1) rotate(-1.4deg) translateY(0); }
+}
+.hint-popover-pin {
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.hint-popover-eyebrow {
+  position: relative;
+  display: inline-block;
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--red);
+  border: 1.5px solid var(--black);
+  padding: 3px 9px;
+  margin: 0 0 10px;
+  transform: rotate(-2deg);
+}
+.hint-popover-body {
+  position: relative;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin: 0;
+}
 
 @media (max-width: 640px) {
-  .card-tab { left: 4vw; bottom: max(16px, env(safe-area-inset-bottom, 16px)); padding: 9px 13px; }
+  .hint-widget { left: 4vw; bottom: max(16px, env(safe-area-inset-bottom, 16px)); }
+  .hint-tab-label { display: none; }
+  .hint-tab { padding: 10px; }
+  .hint-popover { width: min(230px, 78vw); }
 }
 
 .card-backdrop {
@@ -2283,13 +2491,11 @@ a.contact-info-value:hover { color: var(--red-hot); }
   width: min(400px, 100%);
   max-height: calc(100vh - 48px);
   background: var(--red);
-  border: 2px solid var(--black);
+  border: 2px solid var(--cream);
   transform: rotate(-0.6deg);
   box-shadow: 10px 12px 0 rgba(0, 0, 0, 0.7);
   clip-path: polygon(0 0, 100% 0, 100% 96%, 96% 100%, 0 100%, 0 4%);
 }
-.calling-card--unlocked { border-color: var(--cream); }
-.calling-card--unlocked .calling-card-art { animation: targetGlint 2.2s ease-in-out infinite; }
 @keyframes targetGlint {
   0%, 100% { box-shadow: inset 0 0 0 0 rgba(242, 237, 228, 0); }
   50% { box-shadow: inset 0 0 44px 8px rgba(242, 237, 228, 0.55); }
@@ -2326,6 +2532,7 @@ a.contact-info-value:hover { color: var(--red-hot); }
   justify-content: center;
   padding: 46px 20px 32px;
   background: repeating-radial-gradient(circle at 50% 45%, var(--black) 0 15px, var(--red) 15px 30px);
+  animation: targetGlint 2.2s ease-in-out infinite;
 }
 
 .calling-card-emblem {
@@ -2382,44 +2589,3 @@ a.contact-info-value:hover { color: var(--red-hot); }
   .calling-card-plate { padding: 22px 20px 24px; }
 }
 
-/* ===== EASTER EGG FLOURISH ===== */
-.egg-flourish {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(11, 11, 12, 0.55);
-  cursor: pointer;
-  animation: eggFade 1.4s ease forwards;
-}
-@keyframes eggFade {
-  0% { opacity: 0; }
-  12% { opacity: 1; }
-  82% { opacity: 1; }
-  100% { opacity: 0; }
-}
-.egg-flourish-card {
-  background: var(--red);
-  color: var(--cream);
-  padding: 30px 44px;
-  text-align: center;
-  transform: rotate(-2deg);
-  clip-path: polygon(4% 0, 100% 0, 96% 100%, 0 100%);
-  box-shadow: 8px 9px 0 var(--black);
-  animation: eggPop 0.4s cubic-bezier(.3, 1.6, .5, 1);
-}
-@keyframes eggPop {
-  0% { transform: scale(0.4) rotate(-10deg); }
-  70% { transform: scale(1.05) rotate(-1deg); }
-  100% { transform: scale(1) rotate(-2deg); }
-}
-.egg-flourish-star { display: block; font-size: 32px; margin-bottom: 8px; }
-.egg-flourish-text {
-  font-family: 'Anton', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.egg-flourish-sub { font-size: 12px; margin-top: 6px; opacity: 0.85; }

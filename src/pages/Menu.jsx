@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MuteToggle from '../components/MuteToggle';
 import SplatterBackground from '../components/SplatterBackground';
@@ -21,7 +21,21 @@ export default function Menu() {
   const { playHover, playConfirm, muted, toggleMuted } = useSfx();
   const itemRefs = useRef([]);
 
-  const onHover = useCallback(() => playHover(), [playHover]);
+  // "About Me" reads as selected the instant the page loads, with no real
+  // focus movement (the user hasn't pressed a key yet). A single index
+  // drives the one "selected" look across mouse hover, keyboard focus, and
+  // arrow-key navigation, so there's never a flicker or two items active
+  // at once — mixing that with live :hover/:focus-visible CSS risked a
+  // one-frame moment where both the old and new item looked selected.
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeRef = useRef(0);
+
+  const select = useCallback((i) => {
+    if (activeRef.current === i) return;
+    activeRef.current = i;
+    setActiveIndex(i);
+    playHover();
+  }, [playHover]);
 
   // Arrow-key roving focus, scoped to this list only — Tab/Shift+Tab still
   // work natively, and nothing here ever runs while a form field has focus
@@ -30,9 +44,9 @@ export default function Menu() {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
     const items = itemRefs.current.filter(Boolean);
     const from = items.indexOf(document.activeElement);
-    if (from === -1) return;
+    const fromIndex = from === -1 ? activeRef.current : from;
     e.preventDefault();
-    const next = e.key === 'ArrowDown' ? (from + 1) % items.length : (from - 1 + items.length) % items.length;
+    const next = e.key === 'ArrowDown' ? (fromIndex + 1) % items.length : (fromIndex - 1 + items.length) % items.length;
     items[next].focus();
   }, []);
 
@@ -55,13 +69,13 @@ export default function Menu() {
               {item.external ? (
                 <a
                   ref={(el) => (itemRefs.current[i] = el)}
-                  className="menu-link"
+                  className={`menu-link${i === activeIndex ? ' is-selected' : ''}`}
                   href={item.path}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${item.label} (opens in a new tab)`}
-                  onMouseEnter={onHover}
-                  onFocus={onHover}
+                  onMouseEnter={() => select(i)}
+                  onFocus={() => select(i)}
                   onClick={playConfirm}
                 >
                   <span className="menu-link-accent" aria-hidden="true"></span>
@@ -72,10 +86,10 @@ export default function Menu() {
               ) : (
                 <Link
                   ref={(el) => (itemRefs.current[i] = el)}
-                  className="menu-link"
+                  className={`menu-link${i === activeIndex ? ' is-selected' : ''}`}
                   to={item.path}
-                  onMouseEnter={onHover}
-                  onFocus={onHover}
+                  onMouseEnter={() => select(i)}
+                  onFocus={() => select(i)}
                   onClick={playConfirm}
                   aria-label={`${item.label}${item.desc ? `, ${item.desc}` : ''}`}
                 >

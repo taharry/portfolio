@@ -3,7 +3,6 @@ import CutoutTitle from '../components/CutoutTitle';
 import SplatterBackground from '../components/SplatterBackground';
 import BioCard from '../components/BioCard';
 import SkillList from '../components/SkillList';
-import PortraitBadge from '../components/PortraitBadge';
 
 const BIO_ENTRIES = [
   {
@@ -35,8 +34,9 @@ const ABOUT_BLOCKS = [
 export default function About() {
   return (
     <Layout crumb="ABOUT">
-      <header className="page-header page-header--split halftone">
+      <header className="page-header page-header--split page-header--compact page-header--profile halftone">
         <SplatterBackground className="splatter-bg--header" seed={3} variant="split" />
+        <span className="pin-mark profile-header-pin" aria-hidden="true"></span>
         <div className="page-eyebrow">// 01</div>
         <div className="page-title-wrap">
           <CutoutTitle text="About Me" />
@@ -46,7 +46,6 @@ export default function About() {
 
       <section className="about-grid">
         <div className="about-text">
-          <PortraitBadge />
           <BioCard entries={BIO_ENTRIES} />
 
           <div className="about-blocks">

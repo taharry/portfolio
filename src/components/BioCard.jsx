@@ -15,7 +15,7 @@ export default function BioCard({ entries }) {
 
   return (
     <div className="biocard">
-      <div className="biocard-tape" aria-hidden="true"></div>
+      <div className="biocard-pin" aria-hidden="true"></div>
 
       {/* keyed so the swap animation restarts on every change */}
       <div className="biocard-body" key={index}>

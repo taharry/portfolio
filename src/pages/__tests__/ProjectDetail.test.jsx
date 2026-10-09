@@ -22,8 +22,7 @@ describe('ProjectDetail', () => {
     mujam.stack.forEach((tech) => {
       expect(screen.getByText(tech)).toBeInTheDocument();
     });
-    expect(screen.getByRole('link', { name: /source code/i })).toHaveAttribute('href', mujam.href);
-    expect(screen.getByRole('link', { name: /live demo/i })).toHaveAttribute('href', mujam.demo);
+    expect(screen.getByRole('link', { name: /all projects/i })).toHaveAttribute('href', '/projects');
   });
 
   it('shows a friendly not-found state for an unknown slug instead of crashing', () => {

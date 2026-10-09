@@ -14,8 +14,13 @@ const REPOS = [
 export default function Projects() {
   return (
     <Layout crumb="PROJECTS">
-      <header className="page-header page-header--split page-header--compact halftone">
-        <SplatterBackground className="splatter-bg--header" seed={12} variant="split" />
+      <header className="page-header page-header--compact page-header--dossier halftone">
+        <SplatterBackground className="splatter-bg--header" seed={12} />
+        <ul className="dossier-numbers" aria-hidden="true">
+          {PROJECTS.map((p, i) => (
+            <li key={p.slug}>{String(i + 1).padStart(2, '0')}</li>
+          ))}
+        </ul>
         <div className="page-eyebrow">// 02</div>
         <div className="page-title-wrap">
           <CutoutTitle text="Projects" />
@@ -49,10 +54,6 @@ export default function Projects() {
                 </ul>
                 <div className="case-card-actions">
                   <Link className="case-btn" to={`/projects/${p.slug}`}>Open File &rarr;</Link>
-                  <a className="case-btn case-btn--ghost" href={p.href}>Source Code &#8599;</a>
-                  {p.demo && (
-                    <a className="case-btn case-btn--ghost" href={p.demo}>Live Demo &#8599;</a>
-                  )}
                 </div>
               </div>
             </article>

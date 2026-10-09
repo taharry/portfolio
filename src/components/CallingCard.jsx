@@ -3,31 +3,25 @@ import { Link } from 'react-router-dom';
 import { SITE } from '../data/site';
 import CutoutTitle from './CutoutTitle';
 import { dialogOpened, dialogClosed } from '../utils/dialogStack';
+import { isEditableTarget } from '../utils/dom';
 import useSfx from '../hooks/useSfx';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
-const EGG_KEY = 'persona-portfolio:easter-egg';
+const SEQUENCE = 'dev';
 
 /**
- * A small always-present "CARD" tab that opens a Persona-5-calling-card
- * styled dialog: concentric red/black rings fill the whole card as a
- * background, with an original star-seal emblem and a banner headline over
- * them, and a clean cream plate for name/role/intro/actions below. All
- * generated shapes, no game assets. Sits off to the side so it never blocks
- * page content.
+ * A hidden Persona-5-styled calling card. There's no visible button for
+ * it — type "dev" anywhere outside a form field and it appears. The only
+ * clue on screen is a small riddle, never the card itself.
  */
 export default function CallingCard() {
   const [open, setOpen] = useState(false);
-  const [unlocked, setUnlocked] = useState(() => {
-    try {
-      return window.localStorage.getItem(EGG_KEY) === '1';
-    } catch {
-      return false;
-    }
-  });
+  const [hintOpen, setHintOpen] = useState(false);
   const dialogRef = useRef(null);
-  const triggerRef = useRef(null);
   const lastFocused = useRef(null);
+  const bufferRef = useRef('');
+  const hintButtonRef = useRef(null);
+  const hintPopoverRef = useRef(null);
   const { playHover, playConfirm, playBack } = useSfx();
 
   const close = useCallback(() => {
@@ -36,10 +30,19 @@ export default function CallingCard() {
   }, [playBack]);
 
   useEffect(() => {
-    const onUnlock = () => setUnlocked(true);
-    window.addEventListener('easter-egg-unlocked', onUnlock);
-    return () => window.removeEventListener('easter-egg-unlocked', onUnlock);
-  }, []);
+    function onKeyDown(e) {
+      if (isEditableTarget(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length !== 1) return;
+      bufferRef.current = (bufferRef.current + e.key.toLowerCase()).slice(-SEQUENCE.length);
+      if (bufferRef.current === SEQUENCE) {
+        bufferRef.current = '';
+        playConfirm();
+        setOpen(true);
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [playConfirm]);
 
   useEffect(() => {
     if (!open) return;
@@ -75,30 +78,69 @@ export default function CallingCard() {
     };
   }, [open, close]);
 
+  // The hint popover is a lightweight disclosure, not a modal — no focus
+  // trap, since there's nothing focusable inside it to trap. It still
+  // registers on the shared dialog stack so a stray Escape closes the
+  // popover instead of also navigating to the hub menu underneath it.
+  useEffect(() => {
+    if (!hintOpen) return;
+    dialogOpened();
+    function onPointerDown(e) {
+      if (hintPopoverRef.current?.contains(e.target) || hintButtonRef.current?.contains(e.target)) return;
+      setHintOpen(false);
+    }
+    function onKeyDown(e) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setHintOpen(false);
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      dialogClosed();
+      document.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [hintOpen]);
+
   return (
     <>
-      <button
-        type="button"
-        ref={triggerRef}
-        className="card-tab"
-        onMouseEnter={playHover}
-        onFocus={playHover}
-        onClick={() => {
-          playConfirm();
-          setOpen((v) => !v);
-        }}
-        aria-haspopup="dialog"
-        aria-expanded={open}
-        aria-controls="calling-card-dialog"
-      >
-        <span aria-hidden="true">&#9733;</span> Card
-      </button>
+      <div className="hint-widget">
+        <button
+          type="button"
+          ref={hintButtonRef}
+          className="hint-tab"
+          aria-expanded={hintOpen}
+          aria-controls="hint-popover"
+          onMouseEnter={playHover}
+          onFocus={playHover}
+          onClick={() => {
+            if (hintOpen) playBack();
+            else playConfirm();
+            setHintOpen((v) => !v);
+          }}
+        >
+          <span className="hint-tab-mark" aria-hidden="true">&#9733;</span>
+          <span className="hint-tab-label">Hint</span>
+        </button>
+
+        {hintOpen && (
+          <div id="hint-popover" role="note" ref={hintPopoverRef} className="hint-popover">
+            <span className="pin-mark hint-popover-pin" aria-hidden="true"></span>
+            <span className="hint-popover-eyebrow">// Overheard</span>
+            <p className="hint-popover-body">
+              There's a card for those who know the three-letter word for people who build sites like this one.
+            </p>
+          </div>
+        )}
+      </div>
 
       {open && (
         <div className="card-backdrop" onClick={close}>
           <div
             id="calling-card-dialog"
-            className={`calling-card${unlocked ? ' calling-card--unlocked' : ''}`}
+            className="calling-card"
             role="dialog"
             aria-modal="true"
             aria-labelledby="calling-card-name"
@@ -134,8 +176,6 @@ export default function CallingCard() {
                 <Link
                   className="cut-btn case-btn--sm"
                   to="/contact"
-                  onMouseEnter={playHover}
-                  onFocus={playHover}
                   onClick={() => {
                     playConfirm();
                     setOpen(false);

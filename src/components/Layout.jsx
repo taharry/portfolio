@@ -25,8 +25,8 @@ export default function Layout({ crumb, children }) {
   useEffect(() => {
     function onKeyDown(e) {
       // Never hijack Escape while the visitor is typing, and let an open
-      // dialog (CallingCard, the Easter egg flourish) close on Escape
-      // instead of also navigating away underneath it.
+      // dialog (the hidden CallingCard, a project preview lightbox) close
+      // on Escape instead of also navigating away underneath it.
       if (e.key === 'Escape' && !isEditableTarget(e.target) && !isDialogOpen()) {
         playBack();
         navigate('/');
